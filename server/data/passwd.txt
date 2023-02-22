@@ -1,2 +1,9 @@
 username:hashed_password:employee_ID:job_ID:name:email:last_login
-admin:b@dp@55w0rd:1:1:Nobody At All:admin@email.com:now
+admin:b@dp@55w0rd:1:1:Ad Min:admin@email.com:now
+hr:hr:2:2:Human Resource:hr@email.com:now
+ja:ja:3:3:Junior Accountant:jr@email.com:now
+sa:sa:4:4:Senior Accountant:sr@email.com:now
+je:je:5:5:Junior Engineer:je@email.com:now
+se:se:6:6:Senior Engineer:se@email.com:now
+mm:mm:7:7:Mathe Matician:mm@email.com:now
+dn:dn:8:8:Dee Nied:dn@email.com:now

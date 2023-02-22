@@ -298,7 +298,7 @@ class Menu(tk.Frame):
         self.draw()
 
     def __set_back_option(self, callback: Callable, *args, **kwargs):
-        self.__back_option = Menu.MenuOption("Back", callback, *args, **kwargs)
+        self.__back_option = Menu.MenuOption("\nBack", callback, *args, **kwargs)
 
     def __write_text_display(self) -> None:
         self.__write_text(self.__text_display +

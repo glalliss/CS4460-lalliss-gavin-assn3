@@ -11,25 +11,36 @@ class MainMenu(Menu):
         super().__init__(master, f"User: {username}", root)
 
         self.__api = API()
-        user = self.__api.get_user_info(username)
-        print(user.get(username), user.get("password"))
+        user_dict = self.__api.get_user_info(username)
 
         self.get_root().title(f"User: {username}")
-        self.add_option("Example checklist/filtering", self.__check)
-        self.add_option("Example IO", self.get_input, 1, "Example io", self.__io, "Enter the number of input prompts to test")
-        self.add_option("Manage Users\n", self.__manage_users)
+
         # Administration
-        # self.add_option("Administration", self.__admin)
+        if user_dict.get('job_ID') == "1":
+            # self.add_option("Administration", self.__admin)
+            self.add_option("Example checklist/filtering", self.__check)
+            self.add_option("Example IO", self.get_input, 1, "Example io", self.__io,
+                            "Enter the number of input prompts to test")
+            self.add_option("Manage Users", self.__manage_users)
         # Human Resources
-        # self.add_option("Human Resources", self.__hr)
+        if user_dict.get('job_ID') == "2":
+            # self.add_option("Human Resources", self.__hr)
+            self.add_option("Example checklist/filtering", self.__check)
+            self.add_option("Example IO", self.get_input, 1, "Example io", self.__io,
+                            "Enter the number of input prompts to test")
+            self.add_option("Manage Users", self.__manage_users)
         # Add
-        self.add_option("Add", self.get_input, 2, "Add", self.__add, "Num1", "Num2")
+        if user_dict.get('job_ID') == "3" or user_dict.get('job_ID') == "4" or user_dict.get('job_ID') == "7":
+            self.add_option("Add", self.get_input, 2, "Add", self.__add, "Num1", "Num2")
         # Subtract
-        self.add_option("Subtract", self.get_input, 2, "Subtract", self.__sub, "Num1", "Num2")
+        if user_dict.get('job_ID') == "4" or user_dict.get('job_ID') == "7":
+            self.add_option("Subtract", self.get_input, 2, "Subtract", self.__sub, "Num1", "Num2")
         # Multiply
-        self.add_option("Multiply", self.get_input, 2, "Multiply", self.__mul, "Num1", "Num2")
+        if user_dict.get('job_ID') == "5" or user_dict.get('job_ID') == "6" or user_dict.get('job_ID') == "7":
+            self.add_option("Multiply", self.get_input, 2, "Multiply", self.__mul, "Num1", "Num2")
         # Divide
-        self.add_option("Divide", self.get_input, 2, "Divide", self.__div, "Num1", "Num2")
+        if user_dict.get('job_ID') == "6" or user_dict.get('job_ID') == "7":
+            self.add_option("Divide", self.get_input, 2, "Divide", self.__div, "Num1", "Num2")
         # Personal
         # self.add_option("Personal", self.__personal)
         # Logout/back

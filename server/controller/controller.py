@@ -13,18 +13,14 @@ def login(user, password):
     password_file_path = os.path.join(password_dir, "passwd.txt")
     passwd = open(password_file_path, 'r+')
     passwd_file = passwd.readlines()
+    user_dict = {}
     for line in passwd_file:
         user_info_list = line.replace("\n", "").split(":")
-        print(user_info_list)
-        print(len(user_info_list))
+        user_dict[f"{user_info_list[0]} - {user_info_list[1]}"] = user_info_list
     passwd.close()
-    # if this code is still here when you submit you will get an F and a public flogging
-    if password == "password":
-        global name
-        name = user
-        return 123456
-    else:
-        return -1
+    if f"{user} - {password}" in user_dict:
+        return "Success!"
+    return -1
 
 
 def get_users():
@@ -52,11 +48,12 @@ def get_user_info(username):
     password_file_path = os.path.join(password_dir, "passwd.txt")
     passwd = open(password_file_path, 'r+')
     passwd_file = passwd.readlines()
+    user_dict = {}
     for line in passwd_file:
         user_info_list = line.replace("\n", "").split(":")
         # if user_info matches username then create and return dictionary of personal info
         if username == user_info_list[0]:
-            return {
+            user_dict = {
                 "username": user_info_list[0],
                 "hashed_password": user_info_list[1],
                 "employee_ID": user_info_list[2],
@@ -66,4 +63,5 @@ def get_user_info(username):
                 "last_login": user_info_list[6],
              }
     passwd.close()
+    return user_dict
 

@@ -1,4 +1,5 @@
 install bcrypt if not already installed
+fix login authentication so that it doesn't have to use the password in the dictionary
 
 ### app.py
 * Begins the program from Login.py
