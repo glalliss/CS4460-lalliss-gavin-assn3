@@ -1,0 +1,8 @@
+(1)Administrator: Administrator, Human Resources
+(2)Human Resources: Human Resources
+(3)Junior Accountant: Add
+(4)Senior Accountant: Add, Subtract
+(5)Junior Engineer: Multiply
+(6)Senior Engineer: Multiply Divide
+(7)Mathematician: Add, Subtract, Multiply, Divide
+(8)Denied: none

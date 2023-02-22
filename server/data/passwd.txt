@@ -1,0 +1,2 @@
+username:hashed_password:employee_ID:job_ID:name:email:last_login
+admin:b@dp@55w0rd:1:1:Nobody At All:admin@email.com:now
