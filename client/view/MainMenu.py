@@ -9,12 +9,11 @@ from client.service.api import API
 
 class MainMenu(Menu):
     def __init__(self, master: tk.Frame, root: tk.Tk, username: str) -> None:
-        super().__init__(master, f"User: {username}", root)
-
         self.__api = API()
         user_dict = self.__api.get_user_info(username)
+        super().__init__(master, f"Welcome {user_dict.get('name')}", root)
 
-        self.get_root().title(f"User: {username}")
+        self.get_root().title(f"Welcome {user_dict.get('name')}")
 
         # Administration
         if user_dict.get('job_ID') == "1":
@@ -39,6 +38,8 @@ class MainMenu(Menu):
         # Divide
         if user_dict.get('job_ID') == "6" or user_dict.get('job_ID') == "7":
             self.add_option("Divide", self.get_input, 2, "Divide", self.__div, "Num1", "Num2")
+        if user_dict.get('job_ID') == "8":
+            self.print("\nSorry but your access has been revoked")
         # Personal
         self.add_option("Personal", self.__personal, username)
 

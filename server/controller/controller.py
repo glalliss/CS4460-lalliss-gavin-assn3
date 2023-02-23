@@ -72,6 +72,70 @@ def get_user_info(username):
     return user_dict
 
 
+def update_name(username, new_name):
+    password_dir = os.path.dirname(__file__).replace("controller", "data")
+    password_file_path = os.path.join(password_dir, "passwd.txt")
+    passwd = open(password_file_path, 'r+')
+    passwd_file = passwd.readlines()
+    passwd.close()
+    passwd = open(password_file_path, 'w')
+    for line in passwd_file:
+        user_info_list = line.replace("\n", "").split(":", 6)
+        if username == user_info_list[0]:
+            passwd.write(line.replace(user_info_list[4], new_name))
+        else:
+            passwd.write(line)
+    passwd.close()
+
+
+def update_username(old_username, new_username):
+    password_dir = os.path.dirname(__file__).replace("controller", "data")
+    password_file_path = os.path.join(password_dir, "passwd.txt")
+    passwd = open(password_file_path, 'r+')
+    passwd_file = passwd.readlines()
+    passwd.close()
+    passwd = open(password_file_path, 'w')
+    for line in passwd_file:
+        user_info_list = line.replace("\n", "").split(":", 6)
+        if old_username == user_info_list[0]:
+            passwd.write(line.replace(user_info_list[0], new_username))
+        else:
+            passwd.write(line)
+    passwd.close()
+
+
+def update_email(username, new_email):
+    password_dir = os.path.dirname(__file__).replace("controller", "data")
+    password_file_path = os.path.join(password_dir, "passwd.txt")
+    passwd = open(password_file_path, 'r+')
+    passwd_file = passwd.readlines()
+    passwd.close()
+    passwd = open(password_file_path, 'w')
+    for line in passwd_file:
+        user_info_list = line.replace("\n", "").split(":", 6)
+        if username == user_info_list[0]:
+            passwd.write(line.replace(user_info_list[5], new_email))
+        else:
+            passwd.write(line)
+    passwd.close()
+
+
+def update_password(username, new_password):
+    password_dir = os.path.dirname(__file__).replace("controller", "data")
+    password_file_path = os.path.join(password_dir, "passwd.txt")
+    passwd = open(password_file_path, 'r+')
+    passwd_file = passwd.readlines()
+    passwd.close()
+    passwd = open(password_file_path, 'w')
+    for line in passwd_file:
+        user_info_list = line.replace("\n", "").split(":", 6)
+        if username == user_info_list[0]:
+            passwd.write(line.replace(user_info_list[1], new_password))
+        else:
+            passwd.write(line)
+    passwd.close()
+
+
 def update_login_timestamp(username):
     password_dir = os.path.dirname(__file__).replace("controller", "data")
     password_file_path = os.path.join(password_dir, "passwd.txt")
