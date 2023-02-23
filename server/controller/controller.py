@@ -19,7 +19,7 @@ def login(user, password):
         user_dict[f"{user_info_list[0]} - {user_info_list[1]}"] = user_info_list
     passwd.close()
     if f"{user} - {password}" in user_dict:
-        return "Success!"
+        return user_dict.get(f"{user} - {password}")
     return -1
 
 

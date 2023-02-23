@@ -10,27 +10,15 @@ class API:
             cls.instance = super().__new__(cls)
         return cls.instance
 
-    def __init__(self):
-        self.__userId = None;  # The authenticated user id
-
 #############################################################################################
 # All Function calls will make a call on the controller and return to the view that called it
 #############################################################################################
 
-    # Get the name of the authenticated user
-    def get_name(self):
-        return controller.get_name(self.__userId)
-
     # Login a user
     # Note: this is not implemented the way you need to do it
     def login(self, user, password):
-        self.__userId = controller.login(user, password)
-        return self.__userId != -1
-
-    # Get the list of authorized screens for a user
-    # Note: the argument is a hint as to how you need to do things
-    def get_frames(self):
-        return controller.get_screen_list(self.__userId)
+        info = controller.login(user, password)
+        return info
 
     # Get list of users
     def get_users(self):

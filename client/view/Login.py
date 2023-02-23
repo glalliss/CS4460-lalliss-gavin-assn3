@@ -16,11 +16,10 @@ class Login(Menu):
 
     def __login(self, username, password):
         result = self.__api.login(username, password)
-
-        if result:
-            self.__switch_to_main(username)
-        else:
+        if result == -1:
             self.set_display("Invalid Username or Password\nPlease try again")
+        else:
+            self.__switch_to_main(username)
 
     def __switch_to_main(self, username):
         mm = MainMenu(self, self.get_root(), username)
