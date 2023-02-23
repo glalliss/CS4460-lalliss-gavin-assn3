@@ -1,4 +1,5 @@
 username:hashed_password:employee_ID:job_ID:name:email:last_login
+username:password:0:0:name:email:now
 admin:b@dp@55w0rd:1:1:Ad Min:admin@email.com:now
 hr:hr:2:2:Human Resource:hr@email.com:now
 ja:ja:3:3:Junior Accountant:jr@email.com:now
