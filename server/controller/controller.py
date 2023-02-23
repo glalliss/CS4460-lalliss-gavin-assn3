@@ -21,6 +21,11 @@ def login(user, password):
     passwd.close()
     if user in user_dict:
         if password == user_dict.get(user)[1]:
+
+            temp_password = password.encode('utf-8')
+            hashed = bcrypt.hashpw(temp_password, bcrypt.gensalt(11))
+            print(hashed)
+
             return user_dict.get(user)
     return -1
 
@@ -73,8 +78,12 @@ def update_login_timestamp(username):
     password_file_path = os.path.join(password_dir, "passwd.txt")
     passwd = open(password_file_path, 'r+')
     passwd_file = passwd.readlines()
+    passwd.close()
+    passwd = open(password_file_path, 'w')
     for line in passwd_file:
-        user_info_list = line.replace("\n", "").split(":")
+        user_info_list = line.replace("\n", "").split(":", 6)
         if username == user_info_list[0]:
             passwd.write(line.replace(user_info_list[6], str(datetime.datetime.now())))
+        else:
+            passwd.write(line)
     passwd.close()

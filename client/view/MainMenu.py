@@ -18,12 +18,9 @@ class MainMenu(Menu):
         # Administration
         if user_dict.get('job_ID') == "1":
             # self.add_option("Administration", self.__admin)
-            self.add_option("Example checklist/filtering", self.__check)
-            self.add_option("Example IO", self.get_input, 1, "Example io", self.__io,
-                            "Enter the number of input prompts to test")
-            self.add_option("Manage Users", self.__manage_users)
+            pass
         # Human Resources
-        if user_dict.get('job_ID') == "2":
+        if user_dict.get('job_ID') == "1" or user_dict.get('job_ID') == "2":
             # self.add_option("Human Resources", self.__hr)
             self.add_option("Example checklist/filtering", self.__check)
             self.add_option("Example IO", self.get_input, 1, "Example io", self.__io,
@@ -88,3 +85,6 @@ class MainMenu(Menu):
     def __div(self, num1, num2):
         result = self.__api.div(num1, num2)
         self.set_display("\nThe result of the division is " + str(result))
+
+    def __personal(self, username):
+        pass
