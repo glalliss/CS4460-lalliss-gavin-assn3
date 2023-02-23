@@ -25,7 +25,7 @@ class Checklist(Menu):
 
         self.__filters = {}
         for ascii_value in range(ord('a'), ord('z') + 1):
-            self.__filters.update({chr(ascii_value) : True})
+            self.__filters.update({chr(ascii_value): True})
 
         self.add_option("[X] | Words that start with a", self.filter, 'a')
         self.add_option("[X] | Words that start with b", self.filter, 'b')

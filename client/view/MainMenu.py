@@ -3,6 +3,7 @@ import tkinter as tk
 from client.view.Menu import Menu
 from client.view.Checklist import Checklist
 from client.view.ManageUsers import ManageUsers
+from client.view.Personal import Personal
 from client.service.api import API
 
 
@@ -39,7 +40,7 @@ class MainMenu(Menu):
         if user_dict.get('job_ID') == "6" or user_dict.get('job_ID') == "7":
             self.add_option("Divide", self.get_input, 2, "Divide", self.__div, "Num1", "Num2")
         # Personal
-        # self.add_option("Personal", self.__personal)
+        self.add_option("Personal", self.__personal)
 
     def __check(self):
         check = Checklist(self, self.get_root())
@@ -87,4 +88,8 @@ class MainMenu(Menu):
         self.set_display("\nThe result of the division is " + str(result))
 
     def __personal(self, username):
-        pass
+        personal = Personal(self, self.get_root(), username)
+        self.switch_menu(personal, self.__return_to_main_menu(username))
+
+    def __return_to_main_menu(self, username):
+        self.get_root().title(f"User: {username}")
