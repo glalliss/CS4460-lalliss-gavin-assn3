@@ -42,3 +42,6 @@ class API:
 
     def get_user_info(self, username):
         return controller.get_user_info(username)
+
+    def update_login_timestamp(self, username):
+        controller.update_login_timestamp(username)

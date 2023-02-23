@@ -3,6 +3,7 @@
 # Let the client side change that into data objects if necessary.
 import os
 import bcrypt
+import datetime
 
 # This variable is just for this demo
 name = ""
@@ -16,10 +17,11 @@ def login(user, password):
     user_dict = {}
     for line in passwd_file:
         user_info_list = line.replace("\n", "").split(":")
-        user_dict[f"{user_info_list[0]} - {user_info_list[1]}"] = user_info_list
+        user_dict[user_info_list[0]] = user_info_list
     passwd.close()
-    if f"{user} - {password}" in user_dict:
-        return user_dict.get(f"{user} - {password}")
+    if user in user_dict:
+        if password == user_dict.get(user)[1]:
+            return user_dict.get(user)
     return -1
 
 
@@ -65,3 +67,14 @@ def get_user_info(username):
     passwd.close()
     return user_dict
 
+
+def update_login_timestamp(username):
+    password_dir = os.path.dirname(__file__).replace("controller", "data")
+    password_file_path = os.path.join(password_dir, "passwd.txt")
+    passwd = open(password_file_path, 'r+')
+    passwd_file = passwd.readlines()
+    for line in passwd_file:
+        user_info_list = line.replace("\n", "").split(":")
+        if username == user_info_list[0]:
+            passwd.write(line.replace(user_info_list[6], str(datetime.datetime.now())))
+    passwd.close()
