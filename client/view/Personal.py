@@ -18,8 +18,21 @@ class Personal(Menu):
         self.__employee_id = user_dict.get("employee_ID")
         self.__last_login = user_dict.get("last_login")
 
-        self.set_display("Name: " + str(self.__name))
-        self.set_display("Username: " + str(self.__username))
-        self.set_display("Email: " + str(self.__email))
-        self.set_display("Employee ID: " + str(self.__employee_id))
-        self.set_display("Last Login: " + str(self.__last_login))
+        self.print("\nName: " + str(self.__name))
+        self.print("Username: " + str(self.__username))
+        self.print("Email: " + str(self.__email))
+        self.print("Employee ID: " + str(self.__employee_id))
+        self.print("Last Login: " + str(self.__last_login), end="")
+
+        self.add_option("Edit Name", self.__edit_name)
+        self.add_option("Edit Username", self.__edit_username)
+        self.add_option("Edit Email Address", self.__edit_email)
+
+    def __edit_name(self):
+        pass
+
+    def __edit_username(self):
+        pass
+
+    def __edit_email(self):
+        pass

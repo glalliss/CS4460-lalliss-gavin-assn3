@@ -40,7 +40,7 @@ class MainMenu(Menu):
         if user_dict.get('job_ID') == "6" or user_dict.get('job_ID') == "7":
             self.add_option("Divide", self.get_input, 2, "Divide", self.__div, "Num1", "Num2")
         # Personal
-        self.add_option("Personal", self.__personal)
+        self.add_option("Personal", self.__personal, username)
 
     def __check(self):
         check = Checklist(self, self.get_root())

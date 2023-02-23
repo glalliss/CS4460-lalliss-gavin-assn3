@@ -20,12 +20,11 @@ def login(user, password):
         user_dict[user_info_list[0]] = user_info_list
     passwd.close()
     if user in user_dict:
-        if password == user_dict.get(user)[1]:
-
-            temp_password = password.encode('utf-8')
-            hashed = bcrypt.hashpw(temp_password, bcrypt.gensalt(11))
-            print(hashed)
-
+        database_pw = user_dict.get(user)[1]
+        database_pw = database_pw.encode('utf-8')
+        hashed = bcrypt.hashpw(database_pw, bcrypt.gensalt())
+        user_pw = password.encode('utf-8')
+        if bcrypt.checkpw(user_pw, hashed):
             return user_dict.get(user)
     return -1
 

@@ -12,7 +12,7 @@ class Login(Menu):
 
         self.get_root().title("Login")
         self.add_option("Login", self.get_input, 2, "Login", self.__login, "Username", "Password")
-        self.add_option("Exit", exit, 0)
+        self.add_option("\nExit", exit, 0)
 
     def __login(self, username, password):
         result = self.__api.login(username, password)
