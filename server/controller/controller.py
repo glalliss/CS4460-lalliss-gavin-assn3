@@ -79,7 +79,7 @@ def update_name(username, new_name):
     for line in passwd_file:
         user_info_list = line.replace("\n", "").split(":", 6)
         if username == user_info_list[0]:
-            passwd.write(line.replace(user_info_list[4], new_name))
+            passwd.write(user_info_list[0] + ":" + user_info_list[1] + ":" + user_info_list[2] + ":" + user_info_list[3] + f":{new_name}:" + user_info_list[5] + ":" + user_info_list[6] + "\n")
         else:
             passwd.write(line)
     passwd.close()
@@ -95,7 +95,7 @@ def update_username(old_username, new_username):
     for line in passwd_file:
         user_info_list = line.replace("\n", "").split(":", 6)
         if old_username == user_info_list[0]:
-            passwd.write(line.replace(user_info_list[0], new_username))
+            passwd.write(f"{new_username}:" + user_info_list[1] + ":" + user_info_list[2] + ":" + user_info_list[3] + ":" + user_info_list[4] + ":" + user_info_list[5] + ":" + user_info_list[6] + "\n")
         else:
             passwd.write(line)
     passwd.close()
@@ -111,7 +111,7 @@ def update_email(username, new_email):
     for line in passwd_file:
         user_info_list = line.replace("\n", "").split(":", 6)
         if username == user_info_list[0]:
-            passwd.write(line.replace(user_info_list[5], new_email))
+            passwd.write(user_info_list[0] + ":" + user_info_list[1] + ":" + user_info_list[2] + ":" + user_info_list[3] + ":" + user_info_list[4] + f":{new_email}:" + user_info_list[6] + "\n")
         else:
             passwd.write(line)
     passwd.close()
