@@ -26,10 +26,6 @@ def login(user, password):
     return -1
 
 
-def get_users():
-    return "Alice Bob Charlie Denise"
-
-
 def add(num1, num2):
     return float(num1) + float(num2)
 
@@ -44,6 +40,28 @@ def mul(num1, num2):
 
 def div(num1, num2):
     return float(num1) / float(num2)
+
+
+def get_users():
+    password_dir = os.path.dirname(__file__).replace("controller", "data")
+    password_file_path = os.path.join(password_dir, "passwd.txt")
+    passwd = open(password_file_path, 'r+')
+    passwd_file = passwd.readlines()
+    user_dict = {}
+    for line in passwd_file:
+        user_info_list = line.replace("\n", "").split(":", 6)
+        user_dict[f"{user_info_list[0]}"] = {
+            "username": user_info_list[0],
+            "hashed_password": user_info_list[1],
+            "employee_ID": user_info_list[2],
+            "job_ID": user_info_list[3],
+            "name": user_info_list[4],
+            "email": user_info_list[5],
+            "last_login": user_info_list[6],
+        }
+    passwd.close()
+    return user_dict
+    # return "Alice Bob Charlie Denise"
 
 
 def get_user_info(username):
@@ -65,6 +83,7 @@ def get_user_info(username):
                 "email": user_info_list[5],
                 "last_login": user_info_list[6],
              }
+            break
     passwd.close()
     return user_dict
 

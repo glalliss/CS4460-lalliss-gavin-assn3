@@ -2,7 +2,7 @@ import tkinter as tk
 
 from client.view.Menu import Menu
 from client.view.Checklist import Checklist
-from client.view.ManageUsers import ManageUsers
+from client.view.HumanResources import HumanResources
 from client.view.Personal import Personal
 from client.service.api import API
 
@@ -21,11 +21,10 @@ class MainMenu(Menu):
             pass
         # Human Resources
         if user_dict.get('job_ID') == "1" or user_dict.get('job_ID') == "2":
-            # self.add_option("Human Resources", self.__hr)
+            self.add_option("Human Resources", self.__hr)
             self.add_option("Example checklist/filtering", self.__check)
             self.add_option("Example IO", self.get_input, 1, "Example io", self.__io,
                             "Enter the number of input prompts to test")
-            self.add_option("Manage Users", self.__manage_users)
         # Add
         if user_dict.get('job_ID') == "3" or user_dict.get('job_ID') == "4" or user_dict.get('job_ID') == "7":
             self.add_option("Add", self.get_input, 2, "Add", self.__add, "Num1", "Num2")
@@ -60,17 +59,13 @@ class MainMenu(Menu):
             self.print(f"\tInput #{answer_index}:")
             self.print(f"\t\t{inputs[answer_index]}")
 
-    def __manage_users(self):
-        mu = ManageUsers(self, self.get_root())
-        self.switch_menu(mu)
-
     # def __admin(self):
     #     admin = Admin(self, self.get_root())
     #     self.switch_menu(admin)
-    #
-    # def __hr(self):
-    #     hr = HR(self, self.get_root())
-    #     self.switch_menu(hr)
+
+    def __hr(self):
+        hr = HumanResources(self, self.get_root())
+        self.switch_menu(hr)
 
     def __add(self, num1, num2):
         result = self.__api.add(num1, num2)
