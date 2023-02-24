@@ -5,9 +5,6 @@ import os
 import bcrypt
 import datetime
 
-# This variable is just for this demo
-name = ""
-
 
 def login(user, password):
     password_dir = os.path.dirname(__file__).replace("controller", "data")

@@ -1,6 +1,6 @@
 admin:b@dp@55wOrd:1:1:Ad Min:admin@email.com:2023-02-22 23:03:23.293555
 hru:hrp:2:2:Human Resource:hr@email.com:2023-02-22 22:12:25.679713
-jau:jap:3:3:ja:jr@email.com:2023-02-22 23:56:17.722780
+jau:jap:3:3:Junior Accountant:jr@email.com:2023-02-24 14:16:06.408577
 sau:sap:4:4:Senior Accountant:sr@email.com:2023-02-22 18:27:00.076434
 jeu:jep:5:5:Junior Engineer:je@email.com:2023-02-22 19:29:02.433270
 seu:sep:6:6:Senior Engineer:se@email.com:2023-02-22 18:27:08.519330
