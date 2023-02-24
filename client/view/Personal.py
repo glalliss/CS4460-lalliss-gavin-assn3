@@ -8,12 +8,12 @@ class Personal(Menu):
         self.__api = API()
         user_dict = self.__api.get_user_info(username)
         self.__username_now = username
-        super().__init__(master, f"Personal Info for {username}", root)
+        super().__init__(master, f"Personal Info", root)
 
         self.__master = master
         self.__root = root
 
-        self.get_root().title(f"Personal Info for {self.__username_now}")
+        self.get_root().title(f"Personal Info")
 
         self.__name = user_dict.get("name")
         self.__username = user_dict.get("username")
@@ -25,7 +25,7 @@ class Personal(Menu):
 
         self.add_option("Edit Name", self.get_input, 1, "Edit Name", self.__edit_name, "New Name")
         self.add_option("Edit Username", self.get_input, 1, "Edit Username", self.__edit_username, "New Username")
-        self.add_option("Edit Email Address", self.get_input, 1, "Edit Email", self.__edit_email, "New Email")
+        self.add_option("Edit Email", self.get_input, 1, "Edit Email", self.__edit_email, "New Email")
 
     def __print_info(self):
         self.print("\nName: " + str(self.__name))

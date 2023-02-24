@@ -13,7 +13,7 @@ def login(user, password):
     passwd_file = passwd.readlines()
     user_dict = {}
     for line in passwd_file:
-        user_info_list = line.replace("\n", "").split(":")
+        user_info_list = line.replace("\n", "").split(":", 6)
         user_dict[user_info_list[0]] = user_info_list
     passwd.close()
     if user in user_dict:
@@ -53,7 +53,7 @@ def get_user_info(username):
     passwd_file = passwd.readlines()
     user_dict = {}
     for line in passwd_file:
-        user_info_list = line.replace("\n", "").split(":")
+        user_info_list = line.replace("\n", "").split(":", 6)
         # if user_info matches username then create and return dictionary of personal info
         if username == user_info_list[0]:
             user_dict = {
@@ -143,7 +143,7 @@ def update_login_timestamp(username):
     for line in passwd_file:
         user_info_list = line.replace("\n", "").split(":", 6)
         if username == user_info_list[0]:
-            passwd.write(line.replace(user_info_list[6], str(datetime.datetime.now())))
+            passwd.write(line.replace(user_info_list[6], str(datetime.datetime.now().strftime("%Y-%m-%d %I:%M:%S %p"))))
         else:
             passwd.write(line)
     passwd.close()
