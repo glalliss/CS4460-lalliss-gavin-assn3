@@ -274,7 +274,6 @@ def update_password(employee_id, new_password):
         else:
             passwd.write(line)
     passwd.close()
-    # log first login so changed password
 
 
 def update_login_timestamp(employee_id):
@@ -310,7 +309,7 @@ def update_calculations(employee_id, result, calc_type):
     log(employee_id, f"performed {calc_dict[f'{calc_type}']}")
 
 
-def populate_calculations(filter_dict, performer):
+def populate_calculations(filter_dict):
     calc_dir = os.path.dirname(__file__).replace("controller", "data")
     calc_file_path = os.path.join(calc_dir, "calcs.txt")
     calc = open(calc_file_path, 'r')
