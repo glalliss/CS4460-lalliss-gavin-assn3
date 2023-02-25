@@ -53,7 +53,7 @@ def get_users(performer):
     user_dict = {}
     for line in passwd_file:
         user_info_list = line.replace("\n", "").split(":", 6)
-        user_dict[f"{user_info_list[0]}"] = {
+        user_dict[f"{user_info_list[2]}"] = {
             "username": user_info_list[0],
             "hashed_password": user_info_list[1],
             "employee_ID": user_info_list[2],
@@ -76,7 +76,7 @@ def get_managers(performer):
     for line in passwd_file:
         user_info_list = line.replace("\n", "").split(":", 6)
         if user_info_list[3] == "1" or user_info_list[3] == "2":
-            user_dict[f"{user_info_list[0]}"] = {
+            user_dict[f"{user_info_list[2]}"] = {
                 "username": user_info_list[0],
                 "hashed_password": user_info_list[1],
                 "employee_ID": user_info_list[2],

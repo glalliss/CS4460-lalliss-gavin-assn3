@@ -49,6 +49,7 @@ class HumanResources(Menu):
                 if int(job_id) in range(3, 8):
                     self.__api.add_user(name, username, email, job_id, self.__employee_id)
                     self.set_display(f"\nSuccessfully added {name} to the system\n")
+                    self.__rerender()
                 else:
                     self.set_display("\nERROR: Must enter digit between 3-7 for Job Title\n")
             else:

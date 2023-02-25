@@ -105,7 +105,7 @@ class MainMenu(Menu):
 
     def __personal(self, employee_id):
         personal = Personal(self, self.get_root(), employee_id)
-        self.switch_menu(personal)
+        self.switch_menu(personal, self.__return_to_main_menu())
 
     def __return_to_main_menu(self):
         self.get_root().title("Main Menu")
