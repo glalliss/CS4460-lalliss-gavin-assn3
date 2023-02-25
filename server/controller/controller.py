@@ -61,7 +61,6 @@ def get_users():
         }
     passwd.close()
     return user_dict
-    # return "Alice Bob Charlie Denise"
 
 
 def get_user_info(username):

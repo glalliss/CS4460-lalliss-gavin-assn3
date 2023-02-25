@@ -5,4 +5,3 @@
 (5)Junior Engineer: Multiply
 (6)Senior Engineer: Multiply Divide
 (7)Mathematician: Add, Subtract, Multiply, Divide
-(8)Denied: none

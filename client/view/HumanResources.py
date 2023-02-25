@@ -8,36 +8,108 @@ class HumanResources(Menu):
         super().__init__(master, "Manage Users", root, *args, **kwargs)
 
         self.__api = API()
+        self.__user_dict = self.__api.get_users()
+        self.__filters = {
+            "1": True,
+            "2": True,
+            "3": True,
+            "4": True,
+            "5": True,
+            "6": True,
+            "7": True,
+        }
+        self.__job_title = {
+            "1": "Administrator",
+            "2": "Human Resources",
+            "3": "Junior Accountant",
+            "4": "Senior Accountant",
+            "5": "Junior Engineer",
+            "6": "Senior Engineer",
+            "7": "Mathematician",
+        }
+        self.add_option("\nAdd User", self.__add_user)
+        self.add_option("\nFilter:\n[X] | Administrator", self.__filter, "1")
+        self.add_option("[X] | Human Resources", self.__filter, "2")
+        self.add_option("[X] | Junior Accountant", self.__filter, "3")
+        self.add_option("[X] | Senior Accountant", self.__filter, "4")
+        self.add_option("[X] | Junior Engineer", self.__filter, "5")
+        self.add_option("[X] | Senior Engineer", self.__filter, "6")
+        self.add_option("[X] | Mathematician", self.__filter, "7")
         self.__populate_users()
-        # self.add_option("Add User")
 
-    def __populate_users(self):
+    def __add_user(self):
+        pass
+
+    def __rerender(self):
         self.clear_options()
-        self.set_options_header("Select a user to edit:")
 
-        result = self.__api.get_users()
-        for user in result:
-            user_info_dict = result.get(user)
+        self.add_option("\nAdd User", self.__add_user)
+        if self.__filters["1"]:
+            self.add_option("\nFilter:\n[X] | Administrator", self.__filter, "1")
+        else:
+            self.add_option("\nFilter:\n[ ] | Administrator", self.__filter, "1")
+        if self.__filters["2"]:
+            self.add_option("[X] | Human Resources", self.__filter, "2")
+        else:
+            self.add_option("[ ] | Human Resources", self.__filter, "2")
+        if self.__filters["3"]:
+            self.add_option("[X] | Junior Accountant", self.__filter, "3")
+        else:
+            self.add_option("[ ] | Junior Accountant", self.__filter, "3")
+        if self.__filters["4"]:
+            self.add_option("[X] | Senior Accountant", self.__filter, "4")
+        else:
+            self.add_option("[ ] | Senior Accountant", self.__filter, "4")
+        if self.__filters["5"]:
+            self.add_option("[X] | Junior Engineer", self.__filter, "5")
+        else:
+            self.add_option("[ ] | Junior Engineer", self.__filter, "5")
+        if self.__filters["6"]:
+            self.add_option("[X] | Senior Engineer", self.__filter, "6")
+        else:
+            self.add_option("[ ] | Senior Engineer", self.__filter, "6")
+        if self.__filters["7"]:
+            self.add_option("[X] | Mathematician", self.__filter, "7")
+        else:
+            self.add_option("[ ] | Mathematician", self.__filter, "7")
+        first_time = 1
+        for user in self.__user_dict:
+            user_info_dict = self.__user_dict.get(user)
             name = user_info_dict.get('name')
             username = user_info_dict.get('username')
             job_id = user_info_dict.get("job_ID")
-            if job_id == "1":
-                job_title = "Administrator"
-            elif job_id == "2":
-                job_title = "Human Resources"
-            elif job_id == "3":
-                job_title = "Junior Accountant"
-            elif job_id == "4":
-                job_title = "Senior Accountant"
-            elif job_id == "5":
-                job_title = "Junior Engineer"
-            elif job_id == "6":
-                job_title = "Senior Engineer"
-            elif job_id == "7":
-                job_title = "Mathematician"
+            if not self.__filters[job_id]:
+                continue
+            if first_time == 1:
+                self.add_option("\n" + name.ljust(25, ' ') + " - " + username.ljust(15, ' ') + " - " + self.__job_title[job_id], self.__edit_user, user_info_dict)
+                first_time = 0
             else:
-                job_title = "Ex-employee"
-            self.add_option(name.ljust(25, ' ') + " - " + username.ljust(15, ' ') + " - " + job_title, self.__edit_user, user_info_dict)
+                self.add_option(name.ljust(25, ' ') + " - " + username.ljust(15, ' ') + " - " + self.__job_title[job_id], self.__edit_user, user_info_dict)
+
+    def __filter(self, job_id):
+        if self.__filters[job_id]:
+            self.__filters[job_id] = False
+            self.edit_option(int(job_id), name=f"[ ] | {self.__job_title[job_id]}")
+        else:
+            self.__filters[job_id] = True
+            self.edit_option(int(job_id), name=f"[X] | {self.__job_title[job_id]}")
+        self.__rerender()
+
+
+    def __populate_users(self):
+        self.set_options_header("Add user or select a user to edit:")
+
+        first_time = 1
+        for user in self.__user_dict:
+            user_info_dict = self.__user_dict.get(user)
+            name = user_info_dict.get('name')
+            username = user_info_dict.get('username')
+            job_id = user_info_dict.get("job_ID")
+            if first_time == 1:
+                self.add_option("\n" + name.ljust(25, ' ') + " - " + username.ljust(15, ' ') + " - " + self.__job_title[job_id], self.__edit_user, user_info_dict)
+                first_time = 0
+            else:
+                self.add_option(name.ljust(25, ' ') + " - " + username.ljust(15, ' ') + " - " + self.__job_title[job_id], self.__edit_user, user_info_dict)
 
     def __edit_user(self, username):
         self.__selected_old_user = username

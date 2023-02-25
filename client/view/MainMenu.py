@@ -1,7 +1,6 @@
 import tkinter as tk
 
 from client.view.Menu import Menu
-from client.view.Checklist import Checklist
 from client.view.HumanResources import HumanResources
 from client.view.Personal import Personal
 from client.service.api import API
@@ -22,9 +21,7 @@ class MainMenu(Menu):
         # Human Resources
         if user_dict.get('job_ID') == "1" or user_dict.get('job_ID') == "2":
             self.add_option("Human Resources", self.__hr)
-            self.add_option("Example checklist/filtering", self.__check)
-            self.add_option("Example IO", self.get_input, 1, "Example io", self.__io,
-                            "Enter the number of input prompts to test")
+            self.add_option("Example IO", self.get_input, 1, "Example io", self.__io, "Enter the number of input prompts to test")
         # Add
         if user_dict.get('job_ID') == "3" or user_dict.get('job_ID') == "4" or user_dict.get('job_ID') == "7":
             self.add_option("Add", self.get_input, 2, "Add", self.__add, "Num1", "Num2")
@@ -37,14 +34,8 @@ class MainMenu(Menu):
         # Divide
         if user_dict.get('job_ID') == "6" or user_dict.get('job_ID') == "7":
             self.add_option("Divide", self.get_input, 2, "Divide", self.__div, "Num1", "Num2")
-        if user_dict.get('job_ID') == "8":
-            self.print("\nSorry but your access has been revoked")
         # Personal
         self.add_option("Personal", self.__personal, username)
-
-    def __check(self):
-        check = Checklist(self, self.get_root())
-        self.switch_menu(check)
 
     def __io(self, number_of_prompts: str):
         num = int(number_of_prompts)
