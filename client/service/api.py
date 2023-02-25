@@ -38,6 +38,9 @@ class API:
     def get_user_info(self, username):
         return controller.get_user_info(username)
 
+    def add_user(self, name, username, email, job_id):
+        return controller.add_user(name, username, email, job_id)
+
     def update_name(self, username, name):
         controller.update_name(username, name)
 
@@ -47,6 +50,13 @@ class API:
     def update_email(self, username, email):
         controller.update_email(username, email)
 
+    def update_job_title(self, username, job_title):
+        controller.update_job_title(username, job_title)
+
+    def remove_user(self, username):
+        controller.remove_user(username)
+
+    # Only used once for first login
     def update_password(self, username, password):
         controller.update_password(username, password)
 

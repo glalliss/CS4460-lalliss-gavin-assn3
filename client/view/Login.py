@@ -20,7 +20,7 @@ class Login(Menu):
         self.__username = username
         if result == -1:
             self.set_display("\nInvalid Username or Password\nPlease try again")
-        elif result[1] == "password":
+        elif result == "New User":
             # change password from temporary
             self.get_input(2, "Change Password", self.__change_pw, "New Password", "Confirm New Password")
         else:

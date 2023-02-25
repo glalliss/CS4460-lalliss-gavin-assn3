@@ -12,7 +12,7 @@ class MainMenu(Menu):
         user_dict = self.__api.get_user_info(username)
         super().__init__(master, f"Welcome {user_dict.get('name')}", root)
 
-        self.get_root().title(f"Welcome {user_dict.get('name')}")
+        self.get_root().title("Menu")
 
         # Administration
         if user_dict.get('job_ID') == "1":
@@ -21,7 +21,6 @@ class MainMenu(Menu):
         # Human Resources
         if user_dict.get('job_ID') == "1" or user_dict.get('job_ID') == "2":
             self.add_option("Human Resources", self.__hr)
-            self.add_option("Example IO", self.get_input, 1, "Example io", self.__io, "Enter the number of input prompts to test")
         # Add
         if user_dict.get('job_ID') == "3" or user_dict.get('job_ID') == "4" or user_dict.get('job_ID') == "7":
             self.add_option("Add", self.get_input, 2, "Add", self.__add, "Num1", "Num2")
@@ -37,19 +36,6 @@ class MainMenu(Menu):
         # Personal
         self.add_option("Personal", self.__personal, username)
 
-    def __io(self, number_of_prompts: str):
-        num = int(number_of_prompts)
-
-        self.get_input(num, f"Testing with {num} inputs", self.__io1, *[f"Prompt #{i}" for i in range(num)])
-
-    def __io1(self, *inputs):
-        self.clear_display()
-        self.print(f"You asked for {len(inputs)} inputs")
-        
-        for answer_index in range(len(inputs)):
-            self.print(f"\tInput #{answer_index}:")
-            self.print(f"\t\t{inputs[answer_index]}")
-
     # def __admin(self):
     #     admin = Admin(self, self.get_root())
     #     self.switch_menu(admin)
@@ -59,24 +45,55 @@ class MainMenu(Menu):
         self.switch_menu(hr)
 
     def __add(self, num1, num2):
-        result = self.__api.add(num1, num2)
-        self.set_display("\nThe result of the addition is " + str(result))
+        test_num1 = str(num1).replace(".", "")
+        test_num1 = str(test_num1).replace("-", "")
+        test_num2 = str(num2).replace(".", "")
+        test_num2 = str(test_num2).replace("-", "")
+        if test_num1.isnumeric() and test_num2.isnumeric():
+            result = self.__api.add(num1, num2)
+            self.set_display("\nThe result of the addition is " + str(result))
+        else:
+            self.set_display("\nERROR: You must enter two numbers")
 
     def __sub(self, num1, num2):
-        result = self.__api.sub(num1, num2)
-        self.set_display("\nThe result of the subtraction is " + str(result))
+        test_num1 = str(num1).replace(".", "")
+        test_num1 = str(test_num1).replace("-", "")
+        test_num2 = str(num2).replace(".", "")
+        test_num2 = str(test_num2).replace("-", "")
+        if test_num1.isnumeric() and test_num2.isnumeric():
+            result = self.__api.sub(num1, num2)
+            self.set_display("\nThe result of the subtraction is " + str(result))
+        else:
+            self.set_display("\nERROR: You must enter two numbers")
 
     def __mul(self, num1, num2):
-        result = self.__api.mul(num1, num2)
-        self.set_display("\nThe result of the multiplication is " + str(result))
+        test_num1 = str(num1).replace(".", "")
+        test_num1 = str(test_num1).replace("-", "")
+        test_num2 = str(num2).replace(".", "")
+        test_num2 = str(test_num2).replace("-", "")
+        if test_num1.isnumeric() and test_num2.isnumeric():
+            result = self.__api.mul(num1, num2)
+            self.set_display("\nThe result of the multiplication is " + str(result))
+        else:
+            self.set_display("\nERROR: You must enter two numbers")
 
     def __div(self, num1, num2):
-        result = self.__api.div(num1, num2)
-        self.set_display("\nThe result of the division is " + str(result))
+        test_num1 = str(num1).replace(".", "")
+        test_num1 = str(test_num1).replace("-", "")
+        test_num2 = str(num2).replace(".", "")
+        test_num2 = str(test_num2).replace("-", "")
+        if test_num1.isnumeric() and test_num2.isnumeric():
+            if int(test_num2) != 0:
+                result = self.__api.div(num1, num2)
+                self.set_display("\nThe result of the division is " + str(result))
+            else:
+                self.set_display("\nERROR: You cannot divide by zero")
+        else:
+            self.set_display("\nERROR: You must enter two numbers")
 
     def __personal(self, username):
         personal = Personal(self, self.get_root(), username)
-        self.switch_menu(personal, self.__return_to_main_menu(username))
+        self.switch_menu(personal)
 
-    def __return_to_main_menu(self, username):
-        self.get_root().title(f"User: {username}")
+    def __return_to_main_menu(self):
+        self.get_root().title("Main Menu")
