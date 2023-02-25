@@ -6,6 +6,7 @@ import bcrypt
 import datetime
 
 
+# login
 def login(user, password):
     password_dir = os.path.dirname(__file__).replace("controller", "data")
     password_file_path = os.path.join(password_dir, "passwd.txt")
@@ -18,17 +19,22 @@ def login(user, password):
     passwd.close()
     if user in user_dict:
         database_pw = user_dict.get(user)[1]
+        # temporary password so return dictionary of the users data
         if database_pw == "73Mp()R@rY":
             return user_dict.get(user)
+        # log login
         log(user_dict.get(user)[2], "logged in")
         database_pw = database_pw.encode('utf-8')
         hashed = bcrypt.hashpw(database_pw, bcrypt.gensalt())
         user_pw = password.encode('utf-8')
+        # compare encrypted passwords
         if bcrypt.checkpw(user_pw, hashed):
             return user_dict.get(user)
+    # return -1 if failed login
     return -1
 
 
+# calculations for addition, subtraction, multiplication, and division performed and result returned
 def add(num1, num2):
     return float(num1) + float(num2)
 
@@ -45,6 +51,7 @@ def div(num1, num2):
     return float(num1) / float(num2)
 
 
+# return dictionary of dictionaries of all users with keyword of employee_id to differentiate between users
 def get_users(performer):
     password_dir = os.path.dirname(__file__).replace("controller", "data")
     password_file_path = os.path.join(password_dir, "passwd.txt")
@@ -63,10 +70,12 @@ def get_users(performer):
             "last_login": user_info_list[6],
         }
     passwd.close()
+    # log because only used when viewing human resources page
     log(performer, "viewed human resources page")
     return user_dict
 
 
+# similar to get_users above but only returns admin and human resource account information
 def get_managers(performer):
     password_dir = os.path.dirname(__file__).replace("controller", "data")
     password_file_path = os.path.join(password_dir, "passwd.txt")
@@ -86,10 +95,12 @@ def get_managers(performer):
                 "last_login": user_info_list[6],
         }
     passwd.close()
+    # log because only used when viewing admin page
     log(performer, "viewed admin page")
     return user_dict
 
 
+# this is used for checking every access by returning a dictionary of your info
 def get_personal_access_info(employee_id):
     password_dir = os.path.dirname(__file__).replace("controller", "data")
     password_file_path = os.path.join(password_dir, "passwd.txt")
@@ -113,6 +124,7 @@ def get_personal_access_info(employee_id):
     return user_dict
 
 
+# used to get info for another account or your own for editing purposes
 def get_user_info(employee_id, performer):
     password_dir = os.path.dirname(__file__).replace("controller", "data")
     password_file_path = os.path.join(password_dir, "passwd.txt")
@@ -133,10 +145,12 @@ def get_user_info(employee_id, performer):
              }
             break
     passwd.close()
+    # log when viewing personal data that can also be edited
     log(performer, f"viewed {employee_id}'s personal info")
     return user_dict
 
 
+# used for calculation page to show the username of who performed the application even if they change their username
 def get_username(employee_id):
     password_dir = os.path.dirname(__file__).replace("controller", "data")
     password_file_path = os.path.join(password_dir, "passwd.txt")
@@ -149,6 +163,7 @@ def get_username(employee_id):
             return user_info_list[0]
 
 
+# computes the next employee id based on the most recent issued that is still in use
 def new_employee_id():
     password_dir = os.path.dirname(__file__).replace("controller", "data")
     password_file_path = os.path.join(password_dir, "passwd.txt")
@@ -164,6 +179,7 @@ def new_employee_id():
     return new_id
 
 
+# creates a new user by adding their information to the password file
 def add_user(name, username, email, job_id, performer):
     password_dir = os.path.dirname(__file__).replace("controller", "data")
     password_file_path = os.path.join(password_dir, "passwd.txt")
@@ -172,9 +188,11 @@ def add_user(name, username, email, job_id, performer):
     new_id = new_employee_id()
     passwd.write(f"{username}:73Mp()R@rY:{new_id}:{job_id}:{name}:{email}:never\n")
     passwd.close()
+    # log who added the user and who the new user is
     log(performer, f"added {new_id} as a user")
 
 
+# The following update_ methods are used to update the password file and log that there was a change as well
 def update_name(employee_id, new_name, performer):
     password_dir = os.path.dirname(__file__).replace("controller", "data")
     password_file_path = os.path.join(password_dir, "passwd.txt")
@@ -243,6 +261,7 @@ def update_job_title(employee_id, new_job_title, performer):
     log(performer, f"updated {employee_id}'s job title to {new_job_title}")
 
 
+# remove a user and log who removed them but only noting down employee_id
 def remove_user(employee_id, performer):
     password_dir = os.path.dirname(__file__).replace("controller", "data")
     password_file_path = os.path.join(password_dir, "passwd.txt")
@@ -260,6 +279,7 @@ def remove_user(employee_id, performer):
     log(performer, f"removed {employee_id}")
 
 
+# used for changing your password when your account is first created
 def update_password(employee_id, new_password):
     password_dir = os.path.dirname(__file__).replace("controller", "data")
     password_file_path = os.path.join(password_dir, "passwd.txt")
@@ -276,6 +296,7 @@ def update_password(employee_id, new_password):
     passwd.close()
 
 
+# updates login timestamp in the password file
 def update_login_timestamp(employee_id):
     password_dir = os.path.dirname(__file__).replace("controller", "data")
     password_file_path = os.path.join(password_dir, "passwd.txt")
@@ -292,6 +313,7 @@ def update_login_timestamp(employee_id):
     passwd.close()
 
 
+# updates the calc file with the necessary information and logs what type of calculation was performed
 def update_calculations(employee_id, result, calc_type):
     date_time = datetime.datetime.now().strftime("%Y-%m-%d %I:%M:%S %p")
     calc_dir = os.path.dirname(__file__).replace("controller", "data")
@@ -309,6 +331,7 @@ def update_calculations(employee_id, result, calc_type):
     log(employee_id, f"performed {calc_dict[f'{calc_type}']}")
 
 
+# used to create the list of calculations for the admin to view
 def populate_calculations(filter_dict):
     calc_dir = os.path.dirname(__file__).replace("controller", "data")
     calc_file_path = os.path.join(calc_dir, "calcs.txt")
@@ -323,10 +346,12 @@ def populate_calculations(filter_dict):
     return calc_dict
 
 
+# logs that the admin viewed the calculation history
 def log_calculation_page(employee_id):
     log(employee_id, "viewed calculation history")
 
 
+# method for writing the log of operations requesting who performed the operation and what they did
 def log(employee_id, operation):
     date_time = datetime.datetime.now().strftime("%Y-%m-%d %I:%M:%S %p")
     log_dir = os.path.dirname(__file__).replace("controller", "data")

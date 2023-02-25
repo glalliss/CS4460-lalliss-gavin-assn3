@@ -14,12 +14,9 @@ class API:
 # All Function calls will make a call on the controller and return to the view that called it
 #############################################################################################
 
-    # Login a user
-    # Note: this is not implemented the way you need to do it
     def login(self, user, password):
         return controller.login(user, password)
 
-    # Get list of users
     def get_users(self, performer):
         return controller.get_users(performer)
 
@@ -44,11 +41,14 @@ class API:
     def get_user_info(self, employee_id, performer):
         return controller.get_user_info(employee_id, performer)
 
+    def get_username(self, employee_id):
+        return controller.get_username(employee_id)
+
     def add_user(self, name, username, email, job_id, performer):
         return controller.add_user(name, username, email, job_id, performer)
 
-    def get_username(self, employee_id):
-        return controller.get_username(employee_id)
+    def remove_user(self, employee_id, performer):
+        controller.remove_user(employee_id, performer)
 
     def update_name(self, employee_id, name, performer):
         controller.update_name(employee_id, name, performer)
@@ -62,10 +62,6 @@ class API:
     def update_job_title(self, employee_id, job_title, performer):
         controller.update_job_title(employee_id, job_title, performer)
 
-    def remove_user(self, employee_id, performer):
-        controller.remove_user(employee_id, performer)
-
-    # Only used once for first login
     def update_password(self, username, password):
         controller.update_password(username, password)
 
@@ -78,5 +74,5 @@ class API:
     def log_calculation_page(self, employee_id):
         controller.log_calculation_page(employee_id)
 
-    def populate_calculations(self, filter_dict, performer):
-        return controller.populate_calculations(filter_dict, performer)
+    def populate_calculations(self, filter_dict):
+        return controller.populate_calculations(filter_dict)

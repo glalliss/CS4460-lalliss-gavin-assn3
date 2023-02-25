@@ -8,7 +8,6 @@ from client.service.api import API
 class HumanResources(Menu):
     def __init__(self, master: tk.Frame, root: tk.Tk, employee_id: str, *args, **kwargs) -> None:
         super().__init__(master, "Manage Users", root, *args, **kwargs)
-
         self.get_root().title("Menu")
 
         self.__api = API()
@@ -32,6 +31,7 @@ class HumanResources(Menu):
             "6": "Senior Engineer",
             "7": "Mathematician",
         }
+        # filtering info above then create options below and populate users
         self.set_options_header("Add user or select a user to edit:")
         self.add_option("\nAdd User", self.get_input, 4, "Add Info", self.__add_user, "Name", "Username", "Email", "Job Title:\n3 = Junior Accountant\n4 = Senior Accountant\n5 = Junior Engineer\n6 = Senior Engineer\n7 = Mathematician")
         self.add_option("\nFilter:\n[X] | Administrator", self.__filter, "1")
@@ -43,8 +43,9 @@ class HumanResources(Menu):
         self.add_option("[X] | Mathematician", self.__filter, "7")
         self.__populate_users()
 
+    # add user with check every access control and other logic to handle errors
     def __add_user(self, name, username, email, job_id):
-        access = self.__api.get_personal_access_info(self.__employee_id).get("employee_ID")
+        access = self.__api.get_personal_access_info(self.__employee_id).get("job_ID")
         if access is not None:
             if str(name).replace(" ", "") != "" and str(username).replace(" ", "") != "" and str(email).replace(" ", "") != "":
                 if str(job_id).isdigit():
@@ -62,6 +63,7 @@ class HumanResources(Menu):
             self.set_display("\nYour access has been revoked for this function\n")
             self.clear_options()
 
+    # rerender
     def __rerender(self):
         self.clear_options()
         self.add_option("\nAdd User", self.get_input, 4, "Add Info", self.__add_user, "Name", "Username", "Email", "Job Title:\n3 = Junior Accountant\n4 = Senior Accountant\n5 = Junior Engineer\n6 = Senior Engineer\n7 = Mathematician")
@@ -81,8 +83,9 @@ class HumanResources(Menu):
         else: self.add_option("[ ] | Mathematician", self.__filter, "7")
         self.__populate_users()
 
+    # filter with check every access control
     def __filter(self, job_id):
-        access = self.__api.get_personal_access_info(self.__employee_id).get("employee_ID")
+        access = self.__api.get_personal_access_info(self.__employee_id).get("job_ID")
         if access is not None:
             if self.__filters[job_id]:
                 self.__filters[job_id] = False
@@ -95,6 +98,7 @@ class HumanResources(Menu):
             self.set_display("\nYour access has been revoked for this function\n")
             self.clear_options()
 
+    # populate all users as options to be edited if desired
     def __populate_users(self):
         first_time = 1
         for user in self.__user_dict:
@@ -110,8 +114,9 @@ class HumanResources(Menu):
             else:
                 self.add_option(name.ljust(30, ' ') + " - " + username.ljust(18, ' ') + " - " + self.__job_title[job_id], self.__edit_user, user_info_dict)
 
+    # edit user with check every access control
     def __edit_user(self, user_info_dict):
-        access = self.__api.get_personal_access_info(self.__employee_id).get("employee_ID")
+        access = self.__api.get_personal_access_info(self.__employee_id).get("job_ID")
         if access is not None:
             if user_info_dict.get('job_ID') == "1":
                 self.set_display("\nERROR: Nobody is allowed to edit Administrator accounts\n")
@@ -123,6 +128,3 @@ class HumanResources(Menu):
         else:
             self.set_display("\nYour access has been revoked for this function\n")
             self.clear_options()
-
-    def __return_to_human_resources(self):
-        self.get_root().title("Human Resources")

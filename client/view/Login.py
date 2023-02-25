@@ -7,28 +7,30 @@ from client.service.api import API
 class Login(Menu):
     def __init__(self, master: tk.Frame, root: tk.Tk, *args, **kwargs) -> None:
         super().__init__(master, "Login", root, *args, **kwargs)
+        self.get_root().title("Menu")
 
         self.__api = API()
-        self.__username = ""
-
-        self.get_root().title("Menu")
+        # create initial login title/menu and add options to login or exit
         self.add_option("Login", self.get_input, 2, "Login", self.__login, "Username", "Password")
         self.add_option("\nExit", exit, 0)
 
+    # call login method from control and return based on information input by user
     def __login(self, username, password):
         result = self.__api.login(username, password)
-        self.__username = username
+        # invalid username or password so try again
         if result == -1:
             self.set_display("\nERROR: Invalid Username or Password\nPlease try again")
+        # change password from temporary password to strong password
         elif result[1] == "73Mp()R@rY":
             self.__employee_id = result[2]
-            # change password from temporary
             self.get_input(2, "Change Password", self.__change_pw, "New Password", "Confirm New Password")
+        # login success for returning user
         else:
             self.__employee_id = result[2]
             self.__api.update_login_timestamp(self.__employee_id)
             self.__switch_to_main(self.__employee_id)
 
+    # change password and check for strength and free of typos
     def __change_pw(self, new_pw, conf_pw):
         if new_pw == conf_pw:
             password = str(conf_pw)
@@ -44,6 +46,7 @@ class Login(Menu):
             self.set_display("\nERROR: Password must match")
             self.get_input(2, "Change Password", self.__change_pw, "New Password", "Confirm New Password")
 
+    # switch to main menu and return to login page with information below
     def __switch_to_main(self, employee_id):
         mm = MainMenu(self, self.get_root(), employee_id)
         self.switch_menu(mm, self.__return_to_login)

@@ -1,0 +1,84 @@
+2023-02-25 07:04:32 AM<>1<>logged in
+2023-02-25 07:04:39 AM<>1<>viewed 1's personal info
+2023-02-25 07:04:45 AM<>1<>updated 1's name
+2023-02-25 07:04:52 AM<>1<>updated 1's name
+2023-02-25 07:05:00 AM<>1<>updated 1's username
+2023-02-25 07:05:03 AM<>1<>updated 1's username
+2023-02-25 07:05:10 AM<>1<>viewed admin page
+2023-02-25 07:05:12 AM<>1<>viewed calculation history
+2023-02-25 07:05:23 AM<>1<>added 8 as a user
+2023-02-25 07:05:23 AM<>1<>viewed admin page
+2023-02-25 07:05:39 AM<>1<>viewed 8's personal info
+2023-02-25 07:06:42 AM<>8<>viewed human resources page
+2023-02-25 07:07:10 AM<>8<>added 9 as a user
+2023-02-25 07:07:30 AM<>8<>viewed 8's personal info
+2023-02-25 07:07:39 AM<>8<>updated 8's username
+2023-02-25 07:08:43 AM<>9<>performed Addition
+2023-02-25 07:09:00 AM<>9<>performed Multiplication
+2023-02-25 07:09:03 AM<>9<>performed Subtraction
+2023-02-25 07:09:07 AM<>9<>performed Addition
+2023-02-25 07:09:13 AM<>9<>performed Division
+2023-02-25 07:09:16 AM<>9<>viewed 9's personal info
+2023-02-25 07:09:22 AM<>9<>updated 9's username
+2023-02-25 07:09:36 AM<>1<>logged in
+2023-02-25 07:09:39 AM<>1<>viewed admin page
+2023-02-25 07:09:42 AM<>1<>viewed human resources page
+2023-02-25 07:09:46 AM<>1<>viewed human resources page
+2023-02-25 07:09:53 AM<>1<>viewed admin page
+2023-02-25 07:09:54 AM<>1<>viewed calculation history
+2023-02-25 07:10:31 AM<>1<>viewed human resources page
+2023-02-25 07:10:51 AM<>1<>viewed admin page
+2023-02-25 07:10:56 AM<>1<>viewed 2's personal info
+2023-02-25 07:11:01 AM<>1<>removed 2
+2023-02-25 07:18:23 AM<>1<>logged in
+2023-02-25 07:18:32 AM<>1<>viewed 1's personal info
+2023-02-25 07:18:36 AM<>1<>updated 1's username
+2023-02-25 07:18:41 AM<>1<>updated 1's username
+2023-02-25 07:18:58 AM<>1<>viewed admin page
+2023-02-25 07:19:00 AM<>1<>viewed calculation history
+2023-02-25 07:19:13 AM<>1<>viewed 8's personal info
+2023-02-25 07:19:24 AM<>1<>added 10 as a user
+2023-02-25 07:19:24 AM<>1<>viewed admin page
+2023-02-25 07:19:41 AM<>1<>viewed human resources page
+2023-02-25 07:19:51 AM<>1<>added 11 as a user
+2023-02-25 07:20:32 AM<>11<>performed Addition
+2023-02-25 07:20:35 AM<>11<>performed Addition
+2023-02-25 07:20:38 AM<>11<>performed Addition
+2023-02-25 07:20:41 AM<>11<>performed Multiplication
+2023-02-25 07:20:59 AM<>11<>viewed 11's personal info
+2023-02-25 07:21:14 AM<>11<>logged in
+2023-02-25 07:21:17 AM<>11<>viewed 11's personal info
+2023-02-25 07:21:24 AM<>11<>updated 11's username
+2023-02-25 07:21:40 AM<>1<>logged in
+2023-02-25 07:21:41 AM<>1<>viewed admin page
+2023-02-25 07:21:42 AM<>1<>viewed calculation history
+2023-02-25 07:21:51 AM<>1<>viewed admin page
+2023-02-25 07:21:51 AM<>1<>viewed admin page
+2023-02-25 07:21:51 AM<>1<>viewed admin page
+2023-02-25 07:21:51 AM<>1<>viewed admin page
+2023-02-25 07:22:28 AM<>1<>logged in
+2023-02-25 07:22:29 AM<>1<>viewed human resources page
+2023-02-25 07:28:55 AM<>1<>logged in
+2023-02-25 07:29:00 AM<>1<>viewed 1's personal info
+2023-02-25 07:29:16 AM<>1<>updated 1's username
+2023-02-25 07:29:26 AM<>1<>updated 1's username
+2023-02-25 07:29:41 AM<>1<>viewed admin page
+2023-02-25 07:29:43 AM<>1<>viewed calculation history
+2023-02-25 07:29:55 AM<>1<>added 12 as a user
+2023-02-25 07:29:55 AM<>1<>viewed admin page
+2023-02-25 07:30:11 AM<>1<>added 13 as a user
+2023-02-25 07:30:11 AM<>1<>viewed admin page
+2023-02-25 07:31:30 AM<>13<>viewed 13's personal info
+2023-02-25 07:31:38 AM<>13<>updated 13's email
+2023-02-25 07:31:51 AM<>7<>logged in
+2023-02-25 07:31:59 AM<>7<>performed Addition
+2023-02-25 07:32:04 AM<>7<>performed Multiplication
+2023-02-25 07:32:10 AM<>7<>performed Subtraction
+2023-02-25 07:32:14 AM<>7<>viewed 7's personal info
+2023-02-25 07:32:23 AM<>7<>updated 7's username
+2023-02-25 07:32:34 AM<>1<>logged in
+2023-02-25 07:32:35 AM<>1<>viewed admin page
+2023-02-25 07:32:36 AM<>1<>viewed calculation history
+2023-02-25 07:32:51 AM<>1<>viewed human resources page
+2023-02-25 07:32:58 AM<>1<>viewed 10's personal info
+2023-02-25 07:33:01 AM<>1<>removed 10

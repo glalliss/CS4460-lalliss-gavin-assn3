@@ -9,13 +9,11 @@ from client.service.api import API
 class Administration(Menu):
     def __init__(self, master: tk.Frame, root: tk.Tk, employee_id: str, *args, **kwargs) -> None:
         super().__init__(master, "Manage Users", root, *args, **kwargs)
-
         self.get_root().title("Menu")
 
         self.__api = API()
         self.__user_dict = self.__api.get_managers(employee_id)
         self.__employee_id = employee_id
-
         self.__filters = {
             "1": True,
             "2": True,
@@ -31,8 +29,9 @@ class Administration(Menu):
         self.add_option("[X] | Human Resources", self.__filter, "2")
         self.__populate_users()
 
+    # add user with check every access control
     def __add_user(self, name, username, email):
-        access = self.__api.get_personal_access_info(self.__employee_id).get("employee_ID")
+        access = self.__api.get_personal_access_info(self.__employee_id).get("job_ID")
         if access is not None:
             if str(name).replace(" ", "") != "" and str(username).replace(" ", "") != "" and str(email).replace(" ", "") != "":
                 self.__api.add_user(name, username, email, 2, self.__employee_id)
@@ -44,8 +43,9 @@ class Administration(Menu):
             self.set_display("\nYour access has been revoked for this function\n")
             self.clear_options()
 
+    # get calculation option to switch to calculation history page with check every access control
     def __get_calculations(self):
-        access = self.__api.get_personal_access_info(self.__employee_id).get("employee_ID")
+        access = self.__api.get_personal_access_info(self.__employee_id).get("job_ID")
         if access is not None:
             calc = Calculations(self, self.get_root(), self.__employee_id)
             self.switch_menu(calc)
@@ -64,8 +64,9 @@ class Administration(Menu):
         self.__user_dict = self.__api.get_managers(self.__employee_id)
         self.__populate_users()
 
+    # filter with check every access control
     def __filter(self, job_id):
-        access = self.__api.get_personal_access_info(self.__employee_id).get("employee_ID")
+        access = self.__api.get_personal_access_info(self.__employee_id).get("job_ID")
         if access is not None:
             if self.__filters[job_id]:
                 self.__filters[job_id] = False
@@ -78,7 +79,7 @@ class Administration(Menu):
             self.set_display("\nYour access has been revoked for this function\n")
             self.clear_options()
 
-
+    # populate users but only human resources or admin
     def __populate_users(self):
         first_time = 1
         for user in self.__user_dict:
@@ -94,8 +95,9 @@ class Administration(Menu):
             else:
                 self.add_option(name.ljust(30, ' ') + " - " + username.ljust(18, ' ') + " - " + self.__job_title[job_id], self.__edit_user, user_info_dict)
 
+    # edit user with check every access control
     def __edit_user(self, user_info_dict):
-        access = self.__api.get_personal_access_info(self.__employee_id).get("employee_ID")
+        access = self.__api.get_personal_access_info(self.__employee_id).get("job_ID")
         if access is not None:
             if user_info_dict.get('job_ID') == "1":
                 self.set_display("\nERROR: Nobody is allowed to edit Administrator accounts\n")
@@ -105,6 +107,3 @@ class Administration(Menu):
         else:
             self.set_display("\nYour access has been revoked for this function\n")
             self.clear_options()
-
-    def __return_to_administration(self):
-        self.get_root().title("Administration")
