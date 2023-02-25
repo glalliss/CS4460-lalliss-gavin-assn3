@@ -78,10 +78,10 @@ class HumanResources(Menu):
             if not self.__filters[job_id]:
                 continue
             if first_time == 1:
-                self.add_option("\n" + name.ljust(25, ' ') + " - " + username.ljust(15, ' ') + " - " + self.__job_title[job_id], self.__edit_user, user_info_dict)
+                self.add_option("\n" + name.ljust(30, ' ') + " - " + username.ljust(20, ' ') + " - " + self.__job_title[job_id], self.__edit_user, user_info_dict)
                 first_time = 0
             else:
-                self.add_option(name.ljust(25, ' ') + " - " + username.ljust(15, ' ') + " - " + self.__job_title[job_id], self.__edit_user, user_info_dict)
+                self.add_option(name.ljust(30, ' ') + " - " + username.ljust(20, ' ') + " - " + self.__job_title[job_id], self.__edit_user, user_info_dict)
 
     def __filter(self, job_id):
         if self.__filters[job_id]:
@@ -103,16 +103,16 @@ class HumanResources(Menu):
             username = user_info_dict.get('username')
             job_id = user_info_dict.get("job_ID")
             if first_time == 1:
-                self.add_option("\n" + name.ljust(25, ' ') + " - " + username.ljust(15, ' ') + " - " + self.__job_title[job_id], self.__edit_user, user_info_dict)
+                self.add_option("\n" + name.ljust(30, ' ') + " - " + username.ljust(20, ' ') + " - " + self.__job_title[job_id], self.__edit_user, user_info_dict)
                 first_time = 0
             else:
-                self.add_option(name.ljust(25, ' ') + " - " + username.ljust(15, ' ') + " - " + self.__job_title[job_id], self.__edit_user, user_info_dict)
+                self.add_option(name.ljust(30, ' ') + " - " + username.ljust(20, ' ') + " - " + self.__job_title[job_id], self.__edit_user, user_info_dict)
 
     def __edit_user(self, user_info_dict):
         if user_info_dict.get('job_ID') == "1":
-            self.set_display("\nNobody is allowed to edit Administrator accounts\n")
+            self.set_display("\nERROR: Nobody is allowed to edit Administrator accounts\n")
         elif user_info_dict.get('job_ID') == "2":
-            self.set_display("\nOnly Administrators are allowed to edit HR accounts\n")
+            self.set_display("\nERROR: Only Administrators are allowed to edit HR accounts\n")
         else:
             eu = EditUser(self, self.get_root(), user_info_dict)
             self.switch_menu(eu)

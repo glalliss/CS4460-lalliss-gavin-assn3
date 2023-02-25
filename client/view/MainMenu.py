@@ -51,7 +51,7 @@ class MainMenu(Menu):
         test_num2 = str(test_num2).replace("-", "")
         if test_num1.isnumeric() and test_num2.isnumeric():
             result = self.__api.add(num1, num2)
-            self.set_display("\nThe result of the addition is " + str(result))
+            self.set_display(f"\n{num1} + {num2} = {result}")
         else:
             self.set_display("\nERROR: You must enter two numbers")
 
@@ -62,7 +62,7 @@ class MainMenu(Menu):
         test_num2 = str(test_num2).replace("-", "")
         if test_num1.isnumeric() and test_num2.isnumeric():
             result = self.__api.sub(num1, num2)
-            self.set_display("\nThe result of the subtraction is " + str(result))
+            self.set_display(f"\n{num1} - {num2} = {result}")
         else:
             self.set_display("\nERROR: You must enter two numbers")
 
@@ -73,7 +73,7 @@ class MainMenu(Menu):
         test_num2 = str(test_num2).replace("-", "")
         if test_num1.isnumeric() and test_num2.isnumeric():
             result = self.__api.mul(num1, num2)
-            self.set_display("\nThe result of the multiplication is " + str(result))
+            self.set_display(f"\n{num1} * {num2} = {result}")
         else:
             self.set_display("\nERROR: You must enter two numbers")
 
@@ -85,7 +85,7 @@ class MainMenu(Menu):
         if test_num1.isnumeric() and test_num2.isnumeric():
             if int(test_num2) != 0:
                 result = self.__api.div(num1, num2)
-                self.set_display("\nThe result of the division is " + str(result))
+                self.set_display(f"\n{num1} / {num2} = {result}")
             else:
                 self.set_display("\nERROR: You cannot divide by zero")
         else:

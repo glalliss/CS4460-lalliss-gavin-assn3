@@ -94,7 +94,7 @@ def add_user(name, username, email, job_id):
     password_file_path = os.path.join(password_dir, "passwd.txt")
     passwd = open(password_file_path, 'r+')
     # print(len(passwd.readlines()))
-    passwd.write(f"\n{username}:73Mp()r@rY:{len(passwd.readlines())+1}:{job_id}:{name}:{email}:never")
+    passwd.write(f"{username}:73Mp()r@rY:{len(passwd.readlines())+1}:{job_id}:{name}:{email}:never\n")
     passwd.close()
 
 

@@ -65,13 +65,15 @@ class EditUser(Menu):
         if str(job_title).isdigit():
             if int(job_title) in range(3, 8):
                 self.__api.update_job_title(self.__username, job_title)
-                self.__job_title = job_title
+                self.__job_title = self.__job_titles.get(job_title)
                 self.clear_display()
                 self.__print_info()
             else:
-                self.set_display("Must enter digit between 3-7")
+                self.set_display("\nERROR: Must enter digit between 3-7\n")
+                self.__print_info()
         else:
-            self.set_display("Must enter digit")
+            self.set_display("\nERROR: Must enter digit\n")
+            self.__print_info()
 
     def __remove_user(self):
         self.__api.remove_user(self.__username)
