@@ -4,19 +4,17 @@ include login info for all users in database in README
 
 fix login authentication/encryption
 
-adding employees needs to rerender
-
 make sure to check access rights before any operations aka check every access
 
-log file for all operations
-
-rerender on all pages
+rerender on all pages main menu and after user list pages after editing
 
 update README with instructions to run code
 
 report.pdf and link to video
 
 ## How to Run Program
-* Just run the file app.py
-* login info
-* etc.
+* Install the bcrypt library if you don't already have it installed 
+* Run app.py
+* username: admin
+* password: b@dp@55wOrd
+* new accounts need only type in the correct username to reset with new password

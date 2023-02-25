@@ -107,6 +107,7 @@ class HumanResources(Menu):
         else:
             eu = EditUser(self, self.get_root(), user_info_dict.get("employee_ID"), self.__employee_id)
             self.switch_menu(eu)
+        # self.__rerender()
 
     def __return_to_human_resources(self):
         self.get_root().title("Human Resources")
