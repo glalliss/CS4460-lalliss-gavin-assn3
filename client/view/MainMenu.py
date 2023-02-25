@@ -26,13 +26,15 @@ class MainMenu(Menu):
         if self.__user_dict.get('job_ID') == "1" or self.__user_dict.get('job_ID') == "2":
             self.add_option("Human Resources", self.__hr)
         # Add
-        if self.__user_dict.get('job_ID') == "3" or self.__user_dict.get('job_ID') == "4" or self.__user_dict.get('job_ID') == "7":
+        if self.__user_dict.get('job_ID') == "3" or self.__user_dict.get('job_ID') == "4" or self.__user_dict.get(
+                'job_ID') == "7":
             self.add_option("Add", self.get_input, 2, "Add", self.__add, "Num1", "Num2")
         # Subtract
         if self.__user_dict.get('job_ID') == "4" or self.__user_dict.get('job_ID') == "7":
             self.add_option("Subtract", self.get_input, 2, "Subtract", self.__sub, "Num1", "Num2")
         # Multiply
-        if self.__user_dict.get('job_ID') == "5" or self.__user_dict.get('job_ID') == "6" or self.__user_dict.get('job_ID') == "7":
+        if self.__user_dict.get('job_ID') == "5" or self.__user_dict.get('job_ID') == "6" or self.__user_dict.get(
+                'job_ID') == "7":
             self.add_option("Multiply", self.get_input, 2, "Multiply", self.__mul, "Num1", "Num2")
         # Divide
         if self.__user_dict.get('job_ID') == "6" or self.__user_dict.get('job_ID') == "7":
@@ -41,71 +43,106 @@ class MainMenu(Menu):
         self.add_option("Personal", self.__personal, employee_id)
 
     def __admin(self):
-        admin = Administration(self, self.get_root(), self.__employee_id)
-        self.switch_menu(admin)
+        access = self.__api.get_personal_access_info(self.__employee_id).get("employee_ID")
+        if access == "1":
+            admin = Administration(self, self.get_root(), self.__employee_id)
+            self.switch_menu(admin)
+        else:
+            self.set_display("\nYour access has been revoked for this page")
+            self.clear_options()
 
     def __hr(self):
-        hr = HumanResources(self, self.get_root(), self.__employee_id)
-        self.switch_menu(hr)
+        access = self.__api.get_personal_access_info(self.__employee_id).get("employee_ID")
+        if access == "1" or access == "2":
+            hr = HumanResources(self, self.get_root(), self.__employee_id)
+            self.switch_menu(hr)
+        else:
+            self.set_display("\nYour access has been revoked for this page")
+            self.clear_options()
 
     def __add(self, num1, num2):
-        test_num1 = str(num1).replace(".", "")
-        test_num1 = str(test_num1).replace("-", "")
-        test_num2 = str(num2).replace(".", "")
-        test_num2 = str(test_num2).replace("-", "")
-        if test_num1.isnumeric() and test_num2.isnumeric():
-            result = self.__api.add(num1, num2)
-            result = f"{num1} + {num2} = {result}"
-            self.set_display(f"\n{result}")
-            self.__api.update_calculations(self.__employee_id, result, 1)
+        access = self.__api.get_personal_access_info(self.__employee_id).get("employee_ID")
+        if access == "3" or access == "4" or access == "7":
+            test_num1 = str(num1).replace(".", "")
+            test_num1 = str(test_num1).replace("-", "")
+            test_num2 = str(num2).replace(".", "")
+            test_num2 = str(test_num2).replace("-", "")
+            if test_num1.isnumeric() and test_num2.isnumeric():
+                result = self.__api.add(num1, num2)
+                result = f"{num1} + {num2} = {result}"
+                self.set_display(f"\n{result}")
+                self.__api.update_calculations(self.__employee_id, result, 1)
+            else:
+                self.set_display("\nERROR: You must enter two numbers")
         else:
-            self.set_display("\nERROR: You must enter two numbers")
+            self.set_display("\nYour access has been revoked for this function")
+            self.clear_options()
 
     def __sub(self, num1, num2):
-        test_num1 = str(num1).replace(".", "")
-        test_num1 = str(test_num1).replace("-", "")
-        test_num2 = str(num2).replace(".", "")
-        test_num2 = str(test_num2).replace("-", "")
-        if test_num1.isnumeric() and test_num2.isnumeric():
-            result = self.__api.sub(num1, num2)
-            result = f"{num1} - {num2} = {result}"
-            self.set_display(f"\n{result}")
-            self.__api.update_calculations(self.__employee_id, result, 2)
+        access = self.__api.get_personal_access_info(self.__employee_id).get("employee_ID")
+        if access == "4" or access == "7":
+            test_num1 = str(num1).replace(".", "")
+            test_num1 = str(test_num1).replace("-", "")
+            test_num2 = str(num2).replace(".", "")
+            test_num2 = str(test_num2).replace("-", "")
+            if test_num1.isnumeric() and test_num2.isnumeric():
+                result = self.__api.sub(num1, num2)
+                result = f"{num1} - {num2} = {result}"
+                self.set_display(f"\n{result}")
+                self.__api.update_calculations(self.__employee_id, result, 2)
+            else:
+                self.set_display("\nERROR: You must enter two numbers")
         else:
-            self.set_display("\nERROR: You must enter two numbers")
+            self.set_display("\nYour access has been revoked for this function")
+            self.clear_options()
 
     def __mul(self, num1, num2):
-        test_num1 = str(num1).replace(".", "")
-        test_num1 = str(test_num1).replace("-", "")
-        test_num2 = str(num2).replace(".", "")
-        test_num2 = str(test_num2).replace("-", "")
-        if test_num1.isnumeric() and test_num2.isnumeric():
-            result = self.__api.mul(num1, num2)
-            result = f"{num1} * {num2} = {result}"
-            self.set_display(f"\n{result}")
-            self.__api.update_calculations(self.__employee_id, result, 3)
+        access = self.__api.get_personal_access_info(self.__employee_id).get("employee_ID")
+        if access == "5" or access == "6" or access == "7":
+            test_num1 = str(num1).replace(".", "")
+            test_num1 = str(test_num1).replace("-", "")
+            test_num2 = str(num2).replace(".", "")
+            test_num2 = str(test_num2).replace("-", "")
+            if test_num1.isnumeric() and test_num2.isnumeric():
+                result = self.__api.mul(num1, num2)
+                result = f"{num1} * {num2} = {result}"
+                self.set_display(f"\n{result}")
+                self.__api.update_calculations(self.__employee_id, result, 3)
+            else:
+                self.set_display("\nERROR: You must enter two numbers")
         else:
-            self.set_display("\nERROR: You must enter two numbers")
+            self.set_display("\nYour access has been revoked for this function")
+            self.clear_options()
 
     def __div(self, num1, num2):
-        test_num1 = str(num1).replace(".", "")
-        test_num1 = str(test_num1).replace("-", "")
-        test_num2 = str(num2).replace(".", "")
-        test_num2 = str(test_num2).replace("-", "")
-        if test_num1.isnumeric() and test_num2.isnumeric():
-            if int(test_num2) != 0:
-                result = self.__api.div(num1, num2)
-                result = f"{num1} / {num2} = {result}"
-                self.set_display(f"\n{result}")
-                self.__api.update_calculations(self.__employee_id, result, 4)
+        access = self.__api.get_personal_access_info(self.__employee_id).get("employee_ID")
+        if access == "6" or access == "7":
+            test_num1 = str(num1).replace(".", "")
+            test_num1 = str(test_num1).replace("-", "")
+            test_num2 = str(num2).replace(".", "")
+            test_num2 = str(test_num2).replace("-", "")
+            if test_num1.isnumeric() and test_num2.isnumeric():
+                if int(test_num2) != 0:
+                    result = self.__api.div(num1, num2)
+                    result = f"{num1} / {num2} = {result}"
+                    self.set_display(f"\n{result}")
+                    self.__api.update_calculations(self.__employee_id, result, 4)
+                else:
+                    self.set_display("\nERROR: You cannot divide by zero")
             else:
-                self.set_display("\nERROR: You cannot divide by zero")
+                self.set_display("\nERROR: You must enter two numbers")
         else:
-            self.set_display("\nERROR: You must enter two numbers")
+            self.set_display("\nYour access has been revoked for this function")
+            self.clear_options()
 
     def __personal(self, employee_id):
-        personal = Personal(self, self.get_root(), employee_id)
-        self.switch_menu(personal, self.__return_to_main_menu())
+        access = self.__api.get_personal_access_info(self.__employee_id).get("employee_ID")
+        if access is not None:
+            personal = Personal(self, self.get_root(), employee_id)
+            self.switch_menu(personal)
+        else:
+            self.set_display("\nYour access has been revoked for this function")
+            self.clear_options()
 
     def __return_to_main_menu(self):
         self.get_root().title("Main Menu")

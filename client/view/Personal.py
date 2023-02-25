@@ -31,19 +31,34 @@ class Personal(Menu):
         self.print("Last Login: " + str(self.__last_login), end="")
 
     def __edit_name(self, name):
-        self.__api.update_name(self.__employee_id, name, self.__employee_id)
-        self.__name = name
-        self.clear_display()
-        self.__print_info()
+        access = self.__api.get_personal_access_info(self.__employee_id).get("employee_ID")
+        if access is not None:
+            self.__api.update_name(self.__employee_id, name, self.__employee_id)
+            self.__name = name
+            self.clear_display()
+            self.__print_info()
+        else:
+            self.set_display("\nYour access has been revoked for this function\n")
+            self.clear_options()
 
     def __edit_username(self, username):
-        self.__api.update_username(self.__employee_id, username, self.__employee_id)
-        self.__username = username
-        self.clear_display()
-        self.__print_info()
+        access = self.__api.get_personal_access_info(self.__employee_id).get("employee_ID")
+        if access is not None:
+            self.__api.update_username(self.__employee_id, username, self.__employee_id)
+            self.__username = username
+            self.clear_display()
+            self.__print_info()
+        else:
+            self.set_display("\nYour access has been revoked for this function\n")
+            self.clear_options()
 
     def __edit_email(self, email):
-        self.__api.update_email(self.__employee_id, email, self.__employee_id)
-        self.__email = email
-        self.clear_display()
-        self.__print_info()
+        access = self.__api.get_personal_access_info(self.__employee_id).get("employee_ID")
+        if access is not None:
+            self.__api.update_email(self.__employee_id, email, self.__employee_id)
+            self.__email = email
+            self.clear_display()
+            self.__print_info()
+        else:
+            self.set_display("\nYour access has been revoked for this function\n")
+            self.clear_options()

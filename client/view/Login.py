@@ -11,7 +11,7 @@ class Login(Menu):
         self.__api = API()
         self.__username = ""
 
-        self.get_root().title("Login")
+        self.get_root().title("Menu")
         self.add_option("Login", self.get_input, 2, "Login", self.__login, "Username", "Password")
         self.add_option("\nExit", exit, 0)
 
@@ -49,4 +49,4 @@ class Login(Menu):
         self.switch_menu(mm, self.__return_to_login)
 
     def __return_to_login(self):
-        self.get_root().title("Login")
+        self.get_root().title("Menu")

@@ -44,18 +44,23 @@ class HumanResources(Menu):
         self.__populate_users()
 
     def __add_user(self, name, username, email, job_id):
-        if str(name).replace(" ", "") != "" and str(username).replace(" ", "") != "" and str(email).replace(" ", "") != "":
-            if str(job_id).isdigit():
-                if int(job_id) in range(3, 8):
-                    self.__api.add_user(name, username, email, job_id, self.__employee_id)
-                    self.set_display(f"\nSuccessfully added {name} to the system\n")
-                    self.__rerender()
+        access = self.__api.get_personal_access_info(self.__employee_id).get("employee_ID")
+        if access is not None:
+            if str(name).replace(" ", "") != "" and str(username).replace(" ", "") != "" and str(email).replace(" ", "") != "":
+                if str(job_id).isdigit():
+                    if int(job_id) in range(3, 8):
+                        self.__api.add_user(name, username, email, job_id, self.__employee_id)
+                        self.set_display(f"\nSuccessfully added {name} to the system\n")
+                        self.__rerender()
+                    else:
+                        self.set_display("\nERROR: Must enter digit between 3-7 for Job Title\n")
                 else:
-                    self.set_display("\nERROR: Must enter digit between 3-7 for Job Title\n")
+                    self.set_display("\nERROR: Must enter digit for Job Title\n")
             else:
-                self.set_display("\nERROR: Must enter digit for Job Title\n")
+                self.set_display("\nERROR: One or more of the categories was left empty\n")
         else:
-            self.set_display("\nERROR: One or more of the categories was left empty\n")
+            self.set_display("\nYour access has been revoked for this function\n")
+            self.clear_options()
 
     def __rerender(self):
         self.clear_options()
@@ -77,13 +82,18 @@ class HumanResources(Menu):
         self.__populate_users()
 
     def __filter(self, job_id):
-        if self.__filters[job_id]:
-            self.__filters[job_id] = False
-            self.edit_option(int(job_id), name=f"[ ] | {self.__job_title[job_id]}")
+        access = self.__api.get_personal_access_info(self.__employee_id).get("employee_ID")
+        if access is not None:
+            if self.__filters[job_id]:
+                self.__filters[job_id] = False
+                self.edit_option(int(job_id), name=f"[ ] | {self.__job_title[job_id]}")
+            else:
+                self.__filters[job_id] = True
+                self.edit_option(int(job_id), name=f"[X] | {self.__job_title[job_id]}")
+            self.__rerender()
         else:
-            self.__filters[job_id] = True
-            self.edit_option(int(job_id), name=f"[X] | {self.__job_title[job_id]}")
-        self.__rerender()
+            self.set_display("\nYour access has been revoked for this function\n")
+            self.clear_options()
 
     def __populate_users(self):
         first_time = 1
@@ -101,14 +111,18 @@ class HumanResources(Menu):
                 self.add_option(name.ljust(30, ' ') + " - " + username.ljust(18, ' ') + " - " + self.__job_title[job_id], self.__edit_user, user_info_dict)
 
     def __edit_user(self, user_info_dict):
-        if user_info_dict.get('job_ID') == "1":
-            self.set_display("\nERROR: Nobody is allowed to edit Administrator accounts\n")
-        elif user_info_dict.get('job_ID') == "2" and self.__employee_id != "1":
-            self.set_display("\nERROR: Only Administrators are allowed to edit HR accounts\n")
+        access = self.__api.get_personal_access_info(self.__employee_id).get("employee_ID")
+        if access is not None:
+            if user_info_dict.get('job_ID') == "1":
+                self.set_display("\nERROR: Nobody is allowed to edit Administrator accounts\n")
+            elif user_info_dict.get('job_ID') == "2" and self.__employee_id != "1":
+                self.set_display("\nERROR: Only Administrators are allowed to edit HR accounts\n")
+            else:
+                eu = EditUser(self, self.get_root(), user_info_dict.get("employee_ID"), self.__employee_id)
+                self.switch_menu(eu)
         else:
-            eu = EditUser(self, self.get_root(), user_info_dict.get("employee_ID"), self.__employee_id)
-            self.switch_menu(eu)
-        # self.__rerender()
+            self.set_display("\nYour access has been revoked for this function\n")
+            self.clear_options()
 
     def __return_to_human_resources(self):
         self.get_root().title("Human Resources")
