@@ -7,13 +7,14 @@ from client.service.api import API
 
 
 class Administration(Menu):
-    def __init__(self, master: tk.Frame, root: tk.Tk, *args, **kwargs) -> None:
+    def __init__(self, master: tk.Frame, root: tk.Tk, employee_id: str, *args, **kwargs) -> None:
         super().__init__(master, "Manage Users", root, *args, **kwargs)
 
         self.get_root().title("Menu")
 
         self.__api = API()
-        self.__user_dict = self.__api.get_managers()
+        self.__user_dict = self.__api.get_managers(employee_id)
+        self.__employee_id = employee_id
 
         self.__filters = {
             "1": True,
@@ -32,13 +33,14 @@ class Administration(Menu):
 
     def __add_user(self, name, username, email):
         if str(name).replace(" ", "") != "" and str(username).replace(" ", "") != "" and str(email).replace(" ", "") != "":
-            self.__api.add_user(name, username, email, 2)
+            self.__api.add_user(name, username, email, 2, self.__employee_id)
             self.set_display(f"\nSuccessfully added {name} to the system\n")
+            self.__rerender()
         else:
             self.set_display("\nERROR: One or more of the categories was left empty\n")
 
     def __get_calculations(self):
-        calc = Calculations(self, self.get_root())
+        calc = Calculations(self, self.get_root(), self.__employee_id)
         self.switch_menu(calc)
 
     def __rerender(self):
@@ -49,6 +51,7 @@ class Administration(Menu):
         else: self.add_option("\nFilter:\n[ ] | Administrator", self.__filter, "1")
         if self.__filters["2"]: self.add_option("[X] | Human Resources", self.__filter, "2")
         else: self.add_option("[ ] | Human Resources", self.__filter, "2")
+        self.__user_dict = self.__api.get_managers(self.__employee_id)
         self.__populate_users()
 
     def __filter(self, job_id):
@@ -71,17 +74,18 @@ class Administration(Menu):
             if not self.__filters[job_id]:
                 continue
             if first_time == 1:
-                self.add_option("\n" + name.ljust(30, ' ') + " - " + username.ljust(20, ' ') + " - " + self.__job_title[job_id], self.__edit_user, user_info_dict)
+                self.add_option("\n" + name.ljust(30, ' ') + " - " + username.ljust(18, ' ') + " - " + self.__job_title[job_id], self.__edit_user, user_info_dict)
                 first_time = 0
             else:
-                self.add_option(name.ljust(30, ' ') + " - " + username.ljust(20, ' ') + " - " + self.__job_title[job_id], self.__edit_user, user_info_dict)
+                self.add_option(name.ljust(30, ' ') + " - " + username.ljust(18, ' ') + " - " + self.__job_title[job_id], self.__edit_user, user_info_dict)
 
     def __edit_user(self, user_info_dict):
         if user_info_dict.get('job_ID') == "1":
             self.set_display("\nERROR: Nobody is allowed to edit Administrator accounts\n")
         else:
-            eu = EditUser(self, self.get_root(), user_info_dict)
+            eu = EditUser(self, self.get_root(), user_info_dict.get("employee_ID"), self.__employee_id)
             self.switch_menu(eu)
+            # self.__rerender()
 
     def __return_to_administration(self):
         self.get_root().title("Administration")

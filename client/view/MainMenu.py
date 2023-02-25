@@ -10,7 +10,7 @@ from client.service.api import API
 class MainMenu(Menu):
     def __init__(self, master: tk.Frame, root: tk.Tk, employee_id: str) -> None:
         self.__api = API()
-        user_dict = self.__api.get_user_info(employee_id)
+        user_dict = self.__api.get_personal_access_info(employee_id)
         self.__user_dict = user_dict
 
         self.__employee_id = self.__user_dict.get('employee_ID')
@@ -41,11 +41,11 @@ class MainMenu(Menu):
         self.add_option("Personal", self.__personal, employee_id)
 
     def __admin(self):
-        admin = Administration(self, self.get_root())
+        admin = Administration(self, self.get_root(), self.__employee_id)
         self.switch_menu(admin)
 
     def __hr(self):
-        hr = HumanResources(self, self.get_root())
+        hr = HumanResources(self, self.get_root(), self.__employee_id)
         self.switch_menu(hr)
 
     def __add(self, num1, num2):

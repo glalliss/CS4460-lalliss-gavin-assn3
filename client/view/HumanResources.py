@@ -6,13 +6,14 @@ from client.service.api import API
 
 
 class HumanResources(Menu):
-    def __init__(self, master: tk.Frame, root: tk.Tk, *args, **kwargs) -> None:
+    def __init__(self, master: tk.Frame, root: tk.Tk, employee_id: str, *args, **kwargs) -> None:
         super().__init__(master, "Manage Users", root, *args, **kwargs)
 
         self.get_root().title("Menu")
 
         self.__api = API()
-        self.__user_dict = self.__api.get_users()
+        self.__user_dict = self.__api.get_users(employee_id)
+        self.__employee_id = employee_id
         self.__filters = {
             "1": True,
             "2": True,
@@ -46,7 +47,7 @@ class HumanResources(Menu):
         if str(name).replace(" ", "") != "" and str(username).replace(" ", "") != "" and str(email).replace(" ", "") != "":
             if str(job_id).isdigit():
                 if int(job_id) in range(3, 8):
-                    self.__api.add_user(name, username, email, job_id)
+                    self.__api.add_user(name, username, email, job_id, self.__employee_id)
                     self.set_display(f"\nSuccessfully added {name} to the system\n")
                 else:
                     self.set_display("\nERROR: Must enter digit between 3-7 for Job Title\n")
@@ -93,18 +94,18 @@ class HumanResources(Menu):
             if not self.__filters[job_id]:
                 continue
             if first_time == 1:
-                self.add_option("\n" + name.ljust(30, ' ') + " - " + username.ljust(20, ' ') + " - " + self.__job_title[job_id], self.__edit_user, user_info_dict)
+                self.add_option("\n" + name.ljust(30, ' ') + " - " + username.ljust(18, ' ') + " - " + self.__job_title[job_id], self.__edit_user, user_info_dict)
                 first_time = 0
             else:
-                self.add_option(name.ljust(30, ' ') + " - " + username.ljust(20, ' ') + " - " + self.__job_title[job_id], self.__edit_user, user_info_dict)
+                self.add_option(name.ljust(30, ' ') + " - " + username.ljust(18, ' ') + " - " + self.__job_title[job_id], self.__edit_user, user_info_dict)
 
     def __edit_user(self, user_info_dict):
         if user_info_dict.get('job_ID') == "1":
             self.set_display("\nERROR: Nobody is allowed to edit Administrator accounts\n")
-        elif user_info_dict.get('job_ID') == "2":
+        elif user_info_dict.get('job_ID') == "2" and self.__employee_id != "1":
             self.set_display("\nERROR: Only Administrators are allowed to edit HR accounts\n")
         else:
-            eu = EditUser(self, self.get_root(), user_info_dict)
+            eu = EditUser(self, self.get_root(), user_info_dict.get("employee_ID"), self.__employee_id)
             self.switch_menu(eu)
 
     def __return_to_human_resources(self):

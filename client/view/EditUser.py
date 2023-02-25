@@ -4,11 +4,13 @@ from client.service.api import API
 
 
 class EditUser(Menu):
-    def __init__(self, master: tk.Frame, root: tk.Tk, user_dict: dict) -> None:
+    def __init__(self, master: tk.Frame, root: tk.Tk, employee_id: str, performer: str) -> None:
         super().__init__(master, "Edit User", root)
         self.get_root().title("Menu")
 
         self.__api = API()
+        self.__employee_id_performing = performer
+        self.__employee_dict = self.__api.get_user_info(employee_id, performer)
 
         self.__job_titles = {
             "1": "Administrator",
@@ -20,12 +22,12 @@ class EditUser(Menu):
             "7": "Mathematician",
         }
 
-        self.__name = user_dict.get("name")
-        self.__username = user_dict.get("username")
-        self.__email = user_dict.get("email")
-        self.__job_title = self.__job_titles.get(user_dict.get("job_ID"))
-        self.__employee_id = user_dict.get("employee_ID")
-        self.__last_login = user_dict.get("last_login")
+        self.__name = self.__employee_dict.get("name")
+        self.__username = self.__employee_dict.get("username")
+        self.__email = self.__employee_dict.get("email")
+        self.__job_title = self.__job_titles.get(self.__employee_dict.get("job_ID"))
+        self.__employee_id = self.__employee_dict.get("employee_ID")
+        self.__last_login = self.__employee_dict.get("last_login")
 
         self.__print_info()
 
@@ -44,19 +46,19 @@ class EditUser(Menu):
         self.print("Last Login: " + str(self.__last_login), end="")
 
     def __edit_name(self, name):
-        self.__api.update_name(self.__employee_id, name)
+        self.__api.update_name(self.__employee_id, name, self.__employee_id_performing)
         self.__name = name
         self.clear_display()
         self.__print_info()
 
     def __edit_username(self, username):
-        self.__api.update_username(self.__employee_id, username)
+        self.__api.update_username(self.__employee_id, username, self.__employee_id_performing)
         self.__username = username
         self.clear_display()
         self.__print_info()
 
     def __edit_email(self, email):
-        self.__api.update_email(self.__employee_id, email)
+        self.__api.update_email(self.__employee_id, email, self.__employee_id_performing)
         self.__email = email
         self.clear_display()
         self.__print_info()
@@ -64,7 +66,7 @@ class EditUser(Menu):
     def __edit_job_title(self, job_title):
         if str(job_title).isdigit():
             if int(job_title) in range(3, 8):
-                self.__api.update_job_title(self.__employee_id, job_title)
+                self.__api.update_job_title(self.__employee_id, job_title, self.__employee_id_performing)
                 self.__job_title = self.__job_titles.get(job_title)
                 self.clear_display()
                 self.__print_info()
@@ -76,6 +78,6 @@ class EditUser(Menu):
             self.__print_info()
 
     def __remove_user(self):
-        self.__api.remove_user(self.__employee_id)
+        self.__api.remove_user(self.__employee_id, self.__employee_id_performing)
         self.clear_options()
         self.set_display("\nREMOVED USER")

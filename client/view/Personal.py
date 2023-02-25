@@ -7,7 +7,7 @@ class Personal(Menu):
     def __init__(self, master: tk.Frame, root: tk.Tk, employee_id: str) -> None:
         super().__init__(master, f"Personal Info", root)
         self.__api = API()
-        user_dict = self.__api.get_user_info(employee_id)
+        user_dict = self.__api.get_user_info(employee_id, employee_id)
 
         self.get_root().title(f"Menu")
 
@@ -31,19 +31,19 @@ class Personal(Menu):
         self.print("Last Login: " + str(self.__last_login), end="")
 
     def __edit_name(self, name):
-        self.__api.update_name(self.__username, name)
+        self.__api.update_name(self.__employee_id, name, self.__employee_id)
         self.__name = name
         self.clear_display()
         self.__print_info()
 
     def __edit_username(self, username):
-        self.__api.update_username(self.__username, username)
+        self.__api.update_username(self.__employee_id, username, self.__employee_id)
         self.__username = username
         self.clear_display()
         self.__print_info()
 
     def __edit_email(self, email):
-        self.__api.update_email(self.__username, email)
+        self.__api.update_email(self.__employee_id, email, self.__employee_id)
         self.__email = email
         self.clear_display()
         self.__print_info()

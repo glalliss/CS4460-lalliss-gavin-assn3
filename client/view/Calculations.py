@@ -5,12 +5,14 @@ from client.service.api import API
 
 
 class Calculations(Menu):
-    def __init__(self, master: tk.Frame, root: tk.Tk, *args, **kwargs) -> None:
+    def __init__(self, master: tk.Frame, root: tk.Tk, employee_id: str, *args, **kwargs) -> None:
         super().__init__(master, "Calculations", root, *args, **kwargs)
 
         self.get_root().title("Menu")
 
         self.__api = API()
+        self.__api.log_calculation_page(employee_id)
+        self.__employee_id = employee_id
 
         self.__filters = {
             "1": True,
@@ -53,13 +55,13 @@ class Calculations(Menu):
         self.__rerender()
 
     def __populate_calculations(self):
-        calc_dict = self.__api.populate_calculations(self.__filters)
+        calc_dict = self.__api.populate_calculations(self.__filters, self.__employee_id)
         first = "Date/Time"
         second = "username"
         third = "calculation"
-        self.set_display(f"\n{first.ljust(22, ' ')} | {second.ljust(20, ' ')} | {third}\n")
+        self.set_display(f"\n{first.ljust(22, ' ')} | {second.ljust(18, ' ')} | {third}\n")
         for calculation in calc_dict:
             date_time = calc_dict.get(calculation)[0]
             employee_id = calc_dict.get(calculation)[1]
             calc = calc_dict.get(calculation)[2]
-            self.print(f"{date_time} | {self.__api.get_username(employee_id).ljust(20, ' ')} | {calc}")
+            self.print(f"{date_time} | {self.__api.get_username(employee_id).ljust(18, ' ')} | {calc}")

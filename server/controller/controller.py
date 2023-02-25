@@ -20,6 +20,7 @@ def login(user, password):
         database_pw = user_dict.get(user)[1]
         if database_pw == "73Mp()R@rY":
             return user_dict.get(user)
+        log(user_dict.get(user)[2], "logged in")
         database_pw = database_pw.encode('utf-8')
         hashed = bcrypt.hashpw(database_pw, bcrypt.gensalt())
         user_pw = password.encode('utf-8')
@@ -44,7 +45,7 @@ def div(num1, num2):
     return float(num1) / float(num2)
 
 
-def get_users():
+def get_users(performer):
     password_dir = os.path.dirname(__file__).replace("controller", "data")
     password_file_path = os.path.join(password_dir, "passwd.txt")
     passwd = open(password_file_path, 'r')
@@ -62,10 +63,11 @@ def get_users():
             "last_login": user_info_list[6],
         }
     passwd.close()
+    log(performer, "viewed human resources page")
     return user_dict
 
 
-def get_managers():
+def get_managers(performer):
     password_dir = os.path.dirname(__file__).replace("controller", "data")
     password_file_path = os.path.join(password_dir, "passwd.txt")
     passwd = open(password_file_path, 'r')
@@ -73,7 +75,7 @@ def get_managers():
     user_dict = {}
     for line in passwd_file:
         user_info_list = line.replace("\n", "").split(":", 6)
-        if user_info_list[2] == "1" or user_info_list[2] == "2":
+        if user_info_list[3] == "1" or user_info_list[3] == "2":
             user_dict[f"{user_info_list[0]}"] = {
                 "username": user_info_list[0],
                 "hashed_password": user_info_list[1],
@@ -84,10 +86,11 @@ def get_managers():
                 "last_login": user_info_list[6],
         }
     passwd.close()
+    log(performer, "viewed admin page")
     return user_dict
 
 
-def get_user_info(employee_id):
+def get_personal_access_info(employee_id):
     password_dir = os.path.dirname(__file__).replace("controller", "data")
     password_file_path = os.path.join(password_dir, "passwd.txt")
     passwd = open(password_file_path, 'r')
@@ -95,7 +98,29 @@ def get_user_info(employee_id):
     user_dict = {}
     for line in passwd_file:
         user_info_list = line.replace("\n", "").split(":", 6)
-        # if user_info matches username then create and return dictionary of personal info
+        if employee_id == user_info_list[2]:
+            user_dict = {
+                "username": user_info_list[0],
+                "hashed_password": user_info_list[1],
+                "employee_ID": user_info_list[2],
+                "job_ID": user_info_list[3],
+                "name": user_info_list[4],
+                "email": user_info_list[5],
+                "last_login": user_info_list[6],
+            }
+            break
+    passwd.close()
+    return user_dict
+
+
+def get_user_info(employee_id, performer):
+    password_dir = os.path.dirname(__file__).replace("controller", "data")
+    password_file_path = os.path.join(password_dir, "passwd.txt")
+    passwd = open(password_file_path, 'r')
+    passwd_file = passwd.readlines()
+    user_dict = {}
+    for line in passwd_file:
+        user_info_list = line.replace("\n", "").split(":", 6)
         if employee_id == user_info_list[2]:
             user_dict = {
                 "username": user_info_list[0],
@@ -108,6 +133,7 @@ def get_user_info(employee_id):
              }
             break
     passwd.close()
+    log(performer, f"viewed {employee_id}'s personal info")
     return user_dict
 
 
@@ -138,16 +164,18 @@ def new_employee_id():
     return new_id
 
 
-def add_user(name, username, email, job_id):
+def add_user(name, username, email, job_id, performer):
     password_dir = os.path.dirname(__file__).replace("controller", "data")
     password_file_path = os.path.join(password_dir, "passwd.txt")
     passwd = open(password_file_path, 'r+')
     passwd.readlines()
-    passwd.write(f"{username}:73Mp()R@rY:{new_employee_id()}:{job_id}:{name}:{email}:never\n")
+    new_id = new_employee_id()
+    passwd.write(f"{username}:73Mp()R@rY:{new_id}:{job_id}:{name}:{email}:never\n")
     passwd.close()
+    log(performer, f"added {new_id} as a user")
 
 
-def update_name(employee_id, new_name):
+def update_name(employee_id, new_name, performer):
     password_dir = os.path.dirname(__file__).replace("controller", "data")
     password_file_path = os.path.join(password_dir, "passwd.txt")
     passwd = open(password_file_path, 'r+')
@@ -161,9 +189,10 @@ def update_name(employee_id, new_name):
         else:
             passwd.write(line)
     passwd.close()
+    log(performer, f"updated {employee_id}'s name")
 
 
-def update_username(employee_id, new_username):
+def update_username(employee_id, new_username, performer):
     password_dir = os.path.dirname(__file__).replace("controller", "data")
     password_file_path = os.path.join(password_dir, "passwd.txt")
     passwd = open(password_file_path, 'r+')
@@ -177,9 +206,10 @@ def update_username(employee_id, new_username):
         else:
             passwd.write(line)
     passwd.close()
+    log(performer, f"updated {employee_id}'s username")
 
 
-def update_email(employee_id, new_email):
+def update_email(employee_id, new_email, performer):
     password_dir = os.path.dirname(__file__).replace("controller", "data")
     password_file_path = os.path.join(password_dir, "passwd.txt")
     passwd = open(password_file_path, 'r+')
@@ -193,9 +223,10 @@ def update_email(employee_id, new_email):
         else:
             passwd.write(line)
     passwd.close()
+    log(performer, f"updated {employee_id}'s email")
 
 
-def update_job_title(employee_id, new_job_title):
+def update_job_title(employee_id, new_job_title, performer):
     password_dir = os.path.dirname(__file__).replace("controller", "data")
     password_file_path = os.path.join(password_dir, "passwd.txt")
     passwd = open(password_file_path, 'r+')
@@ -209,10 +240,10 @@ def update_job_title(employee_id, new_job_title):
         else:
             passwd.write(line)
     passwd.close()
-    pass
+    log(performer, f"updated {employee_id}'s job title to {new_job_title}")
 
 
-def remove_user(employee_id):
+def remove_user(employee_id, performer):
     password_dir = os.path.dirname(__file__).replace("controller", "data")
     password_file_path = os.path.join(password_dir, "passwd.txt")
     passwd = open(password_file_path, 'r+')
@@ -226,9 +257,10 @@ def remove_user(employee_id):
         else:
             passwd.write(line)
     passwd.close()
+    log(performer, f"removed {employee_id}")
 
 
-def update_password(username, new_password):
+def update_password(employee_id, new_password):
     password_dir = os.path.dirname(__file__).replace("controller", "data")
     password_file_path = os.path.join(password_dir, "passwd.txt")
     passwd = open(password_file_path, 'r+')
@@ -237,11 +269,12 @@ def update_password(username, new_password):
     passwd = open(password_file_path, 'w')
     for line in passwd_file:
         user_info_list = line.replace("\n", "").split(":", 6)
-        if username == user_info_list[0]:
+        if employee_id == user_info_list[2]:
             passwd.write(line.replace(user_info_list[1], new_password))
         else:
             passwd.write(line)
     passwd.close()
+    # log first login so changed password
 
 
 def update_login_timestamp(employee_id):
@@ -268,9 +301,16 @@ def update_calculations(employee_id, result, calc_type):
     calc.readlines()
     calc.write(f"{date_time}<>{employee_id}<>{result}<>{calc_type}\n")
     calc.close()
+    calc_dict = {
+        "1": "Addition",
+        "2": "Subtraction",
+        "3": "Multiplication",
+        "4": "Division",
+    }
+    log(employee_id, f"performed {calc_dict[f'{calc_type}']}")
 
 
-def populate_calculations(filter_dict):
+def populate_calculations(filter_dict, performer):
     calc_dir = os.path.dirname(__file__).replace("controller", "data")
     calc_file_path = os.path.join(calc_dir, "calcs.txt")
     calc = open(calc_file_path, 'r')
@@ -282,3 +322,17 @@ def populate_calculations(filter_dict):
         if filter_dict.get(calc_info_list[3]):
             calc_dict[calc_info_list[0]] = calc_info_list
     return calc_dict
+
+
+def log_calculation_page(employee_id):
+    log(employee_id, "viewed calculation history")
+
+
+def log(employee_id, operation):
+    date_time = datetime.datetime.now().strftime("%Y-%m-%d %I:%M:%S %p")
+    log_dir = os.path.dirname(__file__).replace("controller", "data")
+    log_file_path = os.path.join(log_dir, "logs.txt")
+    log = open(log_file_path, 'r+')
+    log.readlines()
+    log.write(f"{date_time}<>{employee_id}<>{operation}\n")
+    log.close()
