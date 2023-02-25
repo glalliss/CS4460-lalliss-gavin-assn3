@@ -1,5 +1,6 @@
 import tkinter as tk
 
+from client.view.Calculations import Calculations
 from client.view.EditUser import EditUser
 from client.view.Menu import Menu
 from client.service.api import API
@@ -30,15 +31,19 @@ class Administration(Menu):
         self.__populate_users()
 
     def __add_user(self, name, username, email):
-        self.__api.add_user(name, username, email, 2)
-        self.set_display(f"\nSuccessfully added {name} to the system\n")
+        if str(name).replace(" ", "") != "" and str(username).replace(" ", "") != "" and str(email).replace(" ", "") != "":
+            self.__api.add_user(name, username, email, 2)
+            self.set_display(f"\nSuccessfully added {name} to the system\n")
+        else:
+            self.set_display("\nERROR: One or more of the categories was left empty\n")
 
     def __get_calculations(self):
-        pass
+        calc = Calculations(self, self.get_root())
+        self.switch_menu(calc)
 
     def __rerender(self):
         self.clear_options()
-        self.add_option("\nAdd Human Resources Employee", self.get_input, 4, "Add Info", self.__add_user, "Name", "Username", "Email", "Job Title:\n3 = Junior Accountant\n4 = Senior Accountant\n5 = Junior Engineer\n6 = Senior Engineer\n7 = Mathematician")
+        self.add_option("\nAdd Human Resources Employee", self.get_input, 3, "Add Info", self.__add_user, "Name", "Username", "Email")
         self.add_option("View Calculations", self.__get_calculations)
         if self.__filters["1"]: self.add_option("\nFilter:\n[X] | Administrator", self.__filter, "1")
         else: self.add_option("\nFilter:\n[ ] | Administrator", self.__filter, "1")

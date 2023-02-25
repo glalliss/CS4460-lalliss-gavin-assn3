@@ -4,11 +4,10 @@ from client.service.api import API
 
 
 class Personal(Menu):
-    def __init__(self, master: tk.Frame, root: tk.Tk, username: str) -> None:
+    def __init__(self, master: tk.Frame, root: tk.Tk, employee_id: str) -> None:
         super().__init__(master, f"Personal Info", root)
         self.__api = API()
-        user_dict = self.__api.get_user_info(username)
-        self.__username_now = username
+        user_dict = self.__api.get_user_info(employee_id)
 
         self.get_root().title(f"Menu")
 

@@ -43,14 +43,17 @@ class HumanResources(Menu):
         self.__populate_users()
 
     def __add_user(self, name, username, email, job_id):
-        if str(job_id).isdigit():
-            if int(job_id) in range(3, 8):
-                self.__api.add_user(name, username, email, job_id)
-                self.set_display(f"\nSuccessfully added {name} to the system\n")
+        if str(name).replace(" ", "") != "" and str(username).replace(" ", "") != "" and str(email).replace(" ", "") != "":
+            if str(job_id).isdigit():
+                if int(job_id) in range(3, 8):
+                    self.__api.add_user(name, username, email, job_id)
+                    self.set_display(f"\nSuccessfully added {name} to the system\n")
+                else:
+                    self.set_display("\nERROR: Must enter digit between 3-7 for Job Title\n")
             else:
-                self.set_display("\nERROR: Must enter digit between 3-7 for Job Title\n")
+                self.set_display("\nERROR: Must enter digit for Job Title\n")
         else:
-            self.set_display("\nERROR: Must enter digit for Job Title\n")
+            self.set_display("\nERROR: One or more of the categories was left empty\n")
 
     def __rerender(self):
         self.clear_options()

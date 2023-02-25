@@ -8,10 +8,13 @@ from client.service.api import API
 
 
 class MainMenu(Menu):
-    def __init__(self, master: tk.Frame, root: tk.Tk, username: str) -> None:
+    def __init__(self, master: tk.Frame, root: tk.Tk, employee_id: str) -> None:
         self.__api = API()
-        user_dict = self.__api.get_user_info(username)
+        user_dict = self.__api.get_user_info(employee_id)
         self.__user_dict = user_dict
+
+        self.__employee_id = self.__user_dict.get('employee_ID')
+
         super().__init__(master, f"Welcome {self.__user_dict.get('name')}", root)
 
         self.get_root().title("Menu")
@@ -35,7 +38,7 @@ class MainMenu(Menu):
         if self.__user_dict.get('job_ID') == "6" or self.__user_dict.get('job_ID') == "7":
             self.add_option("Divide", self.get_input, 2, "Divide", self.__div, "Num1", "Num2")
         # Personal
-        self.add_option("Personal", self.__personal, username)
+        self.add_option("Personal", self.__personal, employee_id)
 
     def __admin(self):
         admin = Administration(self, self.get_root())
@@ -52,7 +55,9 @@ class MainMenu(Menu):
         test_num2 = str(test_num2).replace("-", "")
         if test_num1.isnumeric() and test_num2.isnumeric():
             result = self.__api.add(num1, num2)
-            self.set_display(f"\n{num1} + {num2} = {result}")
+            result = f"{num1} + {num2} = {result}"
+            self.set_display(f"\n{result}")
+            self.__api.update_calculations(self.__employee_id, result, 1)
         else:
             self.set_display("\nERROR: You must enter two numbers")
 
@@ -63,7 +68,9 @@ class MainMenu(Menu):
         test_num2 = str(test_num2).replace("-", "")
         if test_num1.isnumeric() and test_num2.isnumeric():
             result = self.__api.sub(num1, num2)
-            self.set_display(f"\n{num1} - {num2} = {result}")
+            result = f"{num1} - {num2} = {result}"
+            self.set_display(f"\n{result}")
+            self.__api.update_calculations(self.__employee_id, result, 2)
         else:
             self.set_display("\nERROR: You must enter two numbers")
 
@@ -74,7 +81,9 @@ class MainMenu(Menu):
         test_num2 = str(test_num2).replace("-", "")
         if test_num1.isnumeric() and test_num2.isnumeric():
             result = self.__api.mul(num1, num2)
-            self.set_display(f"\n{num1} * {num2} = {result}")
+            result = f"{num1} * {num2} = {result}"
+            self.set_display(f"\n{result}")
+            self.__api.update_calculations(self.__employee_id, result, 3)
         else:
             self.set_display("\nERROR: You must enter two numbers")
 
@@ -86,14 +95,16 @@ class MainMenu(Menu):
         if test_num1.isnumeric() and test_num2.isnumeric():
             if int(test_num2) != 0:
                 result = self.__api.div(num1, num2)
-                self.set_display(f"\n{num1} / {num2} = {result}")
+                result = f"{num1} / {num2} = {result}"
+                self.set_display(f"\n{result}")
+                self.__api.update_calculations(self.__employee_id, result, 4)
             else:
                 self.set_display("\nERROR: You cannot divide by zero")
         else:
             self.set_display("\nERROR: You must enter two numbers")
 
-    def __personal(self, username):
-        personal = Personal(self, self.get_root(), username)
+    def __personal(self, employee_id):
+        personal = Personal(self, self.get_root(), employee_id)
         self.switch_menu(personal)
 
     def __return_to_main_menu(self):

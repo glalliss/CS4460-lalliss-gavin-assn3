@@ -44,19 +44,19 @@ class EditUser(Menu):
         self.print("Last Login: " + str(self.__last_login), end="")
 
     def __edit_name(self, name):
-        self.__api.update_name(self.__username, name)
+        self.__api.update_name(self.__employee_id, name)
         self.__name = name
         self.clear_display()
         self.__print_info()
 
     def __edit_username(self, username):
-        self.__api.update_username(self.__username, username)
+        self.__api.update_username(self.__employee_id, username)
         self.__username = username
         self.clear_display()
         self.__print_info()
 
     def __edit_email(self, email):
-        self.__api.update_email(self.__username, email)
+        self.__api.update_email(self.__employee_id, email)
         self.__email = email
         self.clear_display()
         self.__print_info()
@@ -64,7 +64,7 @@ class EditUser(Menu):
     def __edit_job_title(self, job_title):
         if str(job_title).isdigit():
             if int(job_title) in range(3, 8):
-                self.__api.update_job_title(self.__username, job_title)
+                self.__api.update_job_title(self.__employee_id, job_title)
                 self.__job_title = self.__job_titles.get(job_title)
                 self.clear_display()
                 self.__print_info()
