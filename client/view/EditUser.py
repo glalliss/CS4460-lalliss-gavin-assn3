@@ -76,6 +76,6 @@ class EditUser(Menu):
             self.__print_info()
 
     def __remove_user(self):
-        self.__api.remove_user(self.__username)
+        self.__api.remove_user(self.__employee_id)
         self.clear_options()
         self.set_display("\nREMOVED USER")

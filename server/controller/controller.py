@@ -9,7 +9,7 @@ import datetime
 def login(user, password):
     password_dir = os.path.dirname(__file__).replace("controller", "data")
     password_file_path = os.path.join(password_dir, "passwd.txt")
-    passwd = open(password_file_path, 'r+')
+    passwd = open(password_file_path, 'r')
     passwd_file = passwd.readlines()
     user_dict = {}
     for line in passwd_file:
@@ -47,7 +47,7 @@ def div(num1, num2):
 def get_users():
     password_dir = os.path.dirname(__file__).replace("controller", "data")
     password_file_path = os.path.join(password_dir, "passwd.txt")
-    passwd = open(password_file_path, 'r+')
+    passwd = open(password_file_path, 'r')
     passwd_file = passwd.readlines()
     user_dict = {}
     for line in passwd_file:
@@ -68,7 +68,7 @@ def get_users():
 def get_managers():
     password_dir = os.path.dirname(__file__).replace("controller", "data")
     password_file_path = os.path.join(password_dir, "passwd.txt")
-    passwd = open(password_file_path, 'r+')
+    passwd = open(password_file_path, 'r')
     passwd_file = passwd.readlines()
     user_dict = {}
     for line in passwd_file:
@@ -90,7 +90,7 @@ def get_managers():
 def get_user_info(username):
     password_dir = os.path.dirname(__file__).replace("controller", "data")
     password_file_path = os.path.join(password_dir, "passwd.txt")
-    passwd = open(password_file_path, 'r+')
+    passwd = open(password_file_path, 'r')
     passwd_file = passwd.readlines()
     user_dict = {}
     for line in passwd_file:
@@ -111,11 +111,27 @@ def get_user_info(username):
     return user_dict
 
 
+def new_employee_id():
+    password_dir = os.path.dirname(__file__).replace("controller", "data")
+    password_file_path = os.path.join(password_dir, "passwd.txt")
+    passwd = open(password_file_path, 'r')
+    passwd_file = passwd.readlines()
+    last = 1
+    for line in passwd_file:
+        user_info_list = line.replace("\n", "").split(":", 6)
+        if last == len(passwd_file):
+            new_id = int(user_info_list[2]) + 1
+        last += 1
+    passwd.close()
+    return new_id
+
+
 def add_user(name, username, email, job_id):
     password_dir = os.path.dirname(__file__).replace("controller", "data")
     password_file_path = os.path.join(password_dir, "passwd.txt")
     passwd = open(password_file_path, 'r+')
-    passwd.write(f"{username}:73Mp()r@rY:{len(passwd.readlines())+1}:{job_id}:{name}:{email}:never\n")
+    passwd.readlines()
+    passwd.write(f"{username}:73Mp()r@rY:{new_employee_id()}:{job_id}:{name}:{email}:never\n")
     passwd.close()
 
 
@@ -184,7 +200,7 @@ def update_job_title(username, new_job_title):
     pass
 
 
-def remove_user(username):
+def remove_user(employee_id):
     password_dir = os.path.dirname(__file__).replace("controller", "data")
     password_file_path = os.path.join(password_dir, "passwd.txt")
     passwd = open(password_file_path, 'r+')
@@ -193,29 +209,10 @@ def remove_user(username):
     passwd = open(password_file_path, 'w')
     for line in passwd_file:
         user_info_list = line.replace("\n", "").split(":", 6)
-        if username == user_info_list[0]:
+        if employee_id == user_info_list[2]:
             passwd.write("")
         else:
             passwd.write(line)
-    passwd.close()
-    update_employee_id()
-
-
-def update_employee_id():
-    password_dir = os.path.dirname(__file__).replace("controller", "data")
-    password_file_path = os.path.join(password_dir, "passwd.txt")
-    passwd = open(password_file_path, 'r+')
-    passwd_file = passwd.readlines()
-    passwd.close()
-    passwd = open(password_file_path, 'w')
-    current_id = 1
-    for line in passwd_file:
-        user_info_list = line.replace("\n", "").split(":", 6)
-        if user_info_list[2] != current_id:
-            passwd.write(user_info_list[0] + ":" + user_info_list[1] + ":" + str(current_id) + ":" + user_info_list[3] + ":" + user_info_list[4] + ":" + user_info_list[5] + ":" + user_info_list[6] + "\n")
-        else:
-            passwd.write(line)
-        current_id += 1
     passwd.close()
 
 

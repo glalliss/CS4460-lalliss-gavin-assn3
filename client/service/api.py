@@ -56,8 +56,8 @@ class API:
     def update_job_title(self, username, job_title):
         controller.update_job_title(username, job_title)
 
-    def remove_user(self, username):
-        controller.remove_user(username)
+    def remove_user(self, employee_id):
+        controller.remove_user(employee_id)
 
     # Only used once for first login
     def update_password(self, username, password):

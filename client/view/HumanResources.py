@@ -31,6 +31,7 @@ class HumanResources(Menu):
             "6": "Senior Engineer",
             "7": "Mathematician",
         }
+        self.set_options_header("Add user or select a user to edit:")
         self.add_option("\nAdd User", self.get_input, 4, "Add Info", self.__add_user, "Name", "Username", "Email", "Job Title:\n3 = Junior Accountant\n4 = Senior Accountant\n5 = Junior Engineer\n6 = Senior Engineer\n7 = Mathematician")
         self.add_option("\nFilter:\n[X] | Administrator", self.__filter, "1")
         self.add_option("[X] | Human Resources", self.__filter, "2")
@@ -53,7 +54,6 @@ class HumanResources(Menu):
 
     def __rerender(self):
         self.clear_options()
-
         self.add_option("\nAdd User", self.get_input, 4, "Add Info", self.__add_user, "Name", "Username", "Email", "Job Title:\n3 = Junior Accountant\n4 = Senior Accountant\n5 = Junior Engineer\n6 = Senior Engineer\n7 = Mathematician")
         if self.__filters["1"]: self.add_option("\nFilter:\n[X] | Administrator", self.__filter, "1")
         else: self.add_option("\nFilter:\n[ ] | Administrator", self.__filter, "1")
@@ -69,19 +69,7 @@ class HumanResources(Menu):
         else: self.add_option("[ ] | Senior Engineer", self.__filter, "6")
         if self.__filters["7"]: self.add_option("[X] | Mathematician", self.__filter, "7")
         else: self.add_option("[ ] | Mathematician", self.__filter, "7")
-        first_time = 1
-        for user in self.__user_dict:
-            user_info_dict = self.__user_dict.get(user)
-            name = user_info_dict.get('name')
-            username = user_info_dict.get('username')
-            job_id = user_info_dict.get("job_ID")
-            if not self.__filters[job_id]:
-                continue
-            if first_time == 1:
-                self.add_option("\n" + name.ljust(30, ' ') + " - " + username.ljust(20, ' ') + " - " + self.__job_title[job_id], self.__edit_user, user_info_dict)
-                first_time = 0
-            else:
-                self.add_option(name.ljust(30, ' ') + " - " + username.ljust(20, ' ') + " - " + self.__job_title[job_id], self.__edit_user, user_info_dict)
+        self.__populate_users()
 
     def __filter(self, job_id):
         if self.__filters[job_id]:
@@ -92,16 +80,15 @@ class HumanResources(Menu):
             self.edit_option(int(job_id), name=f"[X] | {self.__job_title[job_id]}")
         self.__rerender()
 
-
     def __populate_users(self):
-        self.set_options_header("Add user or select a user to edit:")
-
         first_time = 1
         for user in self.__user_dict:
             user_info_dict = self.__user_dict.get(user)
             name = user_info_dict.get('name')
             username = user_info_dict.get('username')
             job_id = user_info_dict.get("job_ID")
+            if not self.__filters[job_id]:
+                continue
             if first_time == 1:
                 self.add_option("\n" + name.ljust(30, ' ') + " - " + username.ljust(20, ' ') + " - " + self.__job_title[job_id], self.__edit_user, user_info_dict)
                 first_time = 0
