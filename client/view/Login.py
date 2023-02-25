@@ -31,12 +31,12 @@ class Login(Menu):
         if new_pw == conf_pw:
             password = str(conf_pw)
             symbols = ["!", "@", "#", "$", "%", "^", "&", "*", "(", ")"]
-            if any(letter.isupper() for letter in password) and any(letter.islower() for letter in password) and any(letter.isdigit() for letter in password) and any(letter in symbols for letter in password):
+            if any(letter.isupper() for letter in password) and any(letter.islower() for letter in password) and any(letter.isdigit() for letter in password) and any(letter in symbols for letter in password) and len(password) > 8:
                 self.__api.update_login_timestamp(self.__username)
                 self.__api.update_password(self.__username, password)
                 self.__switch_to_main(self.__username)
             else:
-                self.set_display("\nERROR: New Password must contain an uppercase and lowercase letter, a number, and a symbol from the number keys")
+                self.set_display("\nERROR: New Password must be at least 9 characters long and contain an uppercase and lowercase letter, a number, and a symbol from the number keys")
                 self.get_input(2, "Change Password", self.__change_pw, "New Password", "Confirm New Password")
         else:
             self.set_display("\nERROR: Password must match")

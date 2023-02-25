@@ -1,5 +1,6 @@
 import tkinter as tk
 
+from client.view.Administration import Administration
 from client.view.Menu import Menu
 from client.view.HumanResources import HumanResources
 from client.view.Personal import Personal
@@ -16,8 +17,7 @@ class MainMenu(Menu):
 
         # Administration
         if user_dict.get('job_ID') == "1":
-            # self.add_option("Administration", self.__admin)
-            pass
+            self.add_option("Administration", self.__admin)
         # Human Resources
         if user_dict.get('job_ID') == "1" or user_dict.get('job_ID') == "2":
             self.add_option("Human Resources", self.__hr)
@@ -36,9 +36,9 @@ class MainMenu(Menu):
         # Personal
         self.add_option("Personal", self.__personal, username)
 
-    # def __admin(self):
-    #     admin = Admin(self, self.get_root())
-    #     self.switch_menu(admin)
+    def __admin(self):
+        admin = Administration(self, self.get_root())
+        self.switch_menu(admin)
 
     def __hr(self):
         hr = HumanResources(self, self.get_root())

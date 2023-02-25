@@ -23,6 +23,9 @@ class API:
     def get_users(self):
         return controller.get_users()
 
+    def get_managers(self):
+        return controller.get_managers()
+
     def add(self, num1, num2):
         return controller.add(num1, num2)
 
